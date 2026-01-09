@@ -1,97 +1,32 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VITRINIII | INTERNAL ARSENAL</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8"><title>HQ_BUNKER</title>
     <style>
-        :root { --pink: #FF2D55; --bg: #050505; --card: #121212; --border: #222; }
-        * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif; margin: 0; padding: 20px; }
-
-        .bunker-header { text-align: center; margin-bottom: 40px; padding-top: 20px; }
-        .bunker-header h1 { font-family: 'Syncopate', sans-serif; font-size: 16px; letter-spacing: 5px; color: var(--pink); margin: 0; }
-        .bunker-header p { font-size: 10px; color: #444; letter-spacing: 2px; margin-top: 10px; }
-
-        .form-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 30px; margin-bottom: 20px; }
-        
-        label { display: block; font-size: 10px; font-weight: 900; letter-spacing: 2px; color: #555; text-transform: uppercase; margin-bottom: 10px; padding-left: 5px; }
-        
-        input, textarea { width: 100%; background: #000; border: 1px solid var(--border); border-radius: 16px; padding: 18px; color: #fff; font-family: 'Outfit', sans-serif; font-size: 16px; margin-bottom: 25px; transition: 0.3s; }
-        input:focus, textarea:focus { border-color: var(--pink); box-shadow: 0 0 15px rgba(255,45,85,0.1); }
-
-        .btn-inject { width: 100%; background: var(--pink); color: #fff; border: none; border-radius: 50px; padding: 22px; font-weight: 900; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; box-shadow: 0 10px 30px rgba(255,45,85,0.3); transition: 0.3s; }
-        .btn-inject:active { transform: scale(0.95); box-shadow: 0 5px 15px rgba(255,45,85,0.2); }
-
-        .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 30px; }
-        .status-item { background: #000; border: 1px solid var(--border); padding: 15px; border-radius: 15px; text-align: center; }
-        .status-item span { display: block; font-size: 8px; color: #444; margin-bottom: 5px; }
-        .status-item b { font-size: 10px; color: #00FF00; letter-spacing: 1px; }
-
-        .exit-btn { width: 100%; background: none; border: 1px solid #222; color: #444; border-radius: 50px; padding: 15px; margin-top: 30px; font-weight: 900; font-size: 10px; letter-spacing: 2px; }
+        body { background: #000; color: #FF2D55; font-family: monospace; padding: 30px; }
+        .box { border: 1px solid #FF2D55; padding: 40px; max-width: 500px; margin: auto; border-radius: 30px; }
+        label { font-size: 10px; display: block; margin-top: 20px; color: #444; }
+        input, textarea { width: 100%; background: #050505; border: 1px solid #222; color: #fff; padding: 15px; margin-top: 10px; border-radius: 15px; outline: none; }
+        button { width: 100%; background: #FF2D55; color: #fff; border: none; padding: 20px; font-weight: 900; border-radius: 50px; margin-top: 40px; cursor: pointer; }
     </style>
 </head>
 <body>
-
-    <div class="bunker-header">
-        <h1>ARSENAL_HQ</h1>
-        <p>INTERNAL_MANAGEMENT_SYSTEM_V3</p>
+    <div class="box">
+        <h1>COMMAND_CENTER</h1>
+        <label>EDITORIAL_INJECTION</label>
+        <textarea id="o" rows="4"></textarea>
+        <label>SPONSOR_ID</label>
+        <input type="text" id="m">
+        <label>SLOGAN_VOICE</label>
+        <input type="text" id="s">
+        <button onclick="save()">INJECT_UPLINK</button>
+        <button onclick="location.href='index.html'" style="background:none; color:#444; font-size:10px;">DISCONNECT</button>
     </div>
-
-    <div class="form-card">
-        <label>● Editorial / Opinião da Persona</label>
-        <textarea id="txt_op" rows="4" placeholder="Determine o pensamento da Vitriniii..."></textarea>
-
-        <label>● Anunciante Ativo</label>
-        <input type="text" id="txt_marca" placeholder="Ex: Nike, Neon, Prada...">
-
-        <label>● Slogan do Locutor</label>
-        <input type="text" id="txt_frase" placeholder="Frase que a IA dirá no rádio...">
-
-        <button class="btn-inject" onclick="injectData()">INJECT_DATA_UPLINK</button>
-    </div>
-
-    <div class="status-grid">
-        <div class="status-item">
-            <span>AUTO_CURA</span>
-            <b>ACTIVE</b>
-        </div>
-        <div class="status-item">
-            <span>SINAL_RSS</span>
-            <b>STABLE</b>
-        </div>
-    </div>
-
-    <button class="exit-btn" onclick="location.href='index.html'">TERMINATE_SESSION</button>
-
     <script>
-        // Carrega dados existentes
-        window.onload = () => {
-            const current = JSON.parse(localStorage.getItem('v3_cmd') || '{}');
-            if(current.op) document.getElementById('txt_op').value = current.op;
-            if(current.marca) document.getElementById('txt_marca').value = current.marca;
-            if(current.frase) document.getElementById('txt_frase').value = current.frase;
-        };
-
-        function injectData() {
-            const data = {
-                op: document.getElementById('txt_op').value,
-                marca: document.getElementById('txt_marca').value,
-                frase: document.getElementById('txt_frase').value,
-                time: Date.now()
-            };
-            
-            localStorage.setItem('v3_cmd', JSON.stringify(data));
-            
-            const btn = document.querySelector('.btn-inject');
-            btn.innerHTML = "DATA_INJECTED!";
-            btn.style.background = "#00FF00";
-            
-            setTimeout(() => {
-                btn.innerHTML = "INJECT_DATA_UPLINK";
-                btn.style.background = "var(--pink)";
-            }, 2000);
+        function save() {
+            const d = { op: document.getElementById('o').value, marca: document.getElementById('m').value, frase: document.getElementById('s').value };
+            localStorage.setItem('v3_cmd', JSON.stringify(d));
+            alert("SINAL_INJETADO");
         }
     </script>
 </body>
