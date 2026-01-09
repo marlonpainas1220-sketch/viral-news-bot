@@ -1,52 +1,57 @@
 const Soberano = {
-    newsData: [],
-    init() { this.carregar('HYPE'); this.gerarRedacao(); },
+    news: [],
+    init() { this.sync(); this.redigir(); },
 
-    showTab(tab) {
-        document.getElementById('news-tab').style.display = tab === 'news' ? 'block' : 'none';
-        document.getElementById('radio-tab').style.display = tab === 'radio' ? 'block' : 'none';
-        document.getElementById('opinion-tab').style.display = tab === 'opinion' ? 'block' : 'none';
-        if(tab === 'radio') document.getElementById('radio-station').style.display = 'block';
+    tab(name, el) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+        document.getElementById('view-news').style.display = name === 'news' ? 'block' : 'none';
+        document.getElementById('view-radio').style.display = name === 'radio' ? 'block' : 'none';
+        document.getElementById('view-opinion').style.display = name === 'opinion' ? 'block' : 'none';
     },
 
-    async carregar(tipo) {
-        const feed = document.getElementById('feed');
+    async sync() {
+        const f = document.getElementById('feed');
+        f.innerHTML = "<p style='color:var(--yellow); text-align:center;'>Sincronizando sinal...</p>";
         try {
-            const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=celebridades+brasil&hl=pt-BR`);
-            const data = await res.json();
-            this.newsData = data.items;
-            feed.innerHTML = '';
-            data.items.slice(0, 10).forEach(item => {
-                feed.innerHTML += `
-                    <div class="card" onclick="window.open('${item.link}')">
-                        <img src="https://images.weserv.nl/?url=${encodeURIComponent(item.thumbnail || item.enclosure.link)}&w=600">
-                        <div style="padding:15px;"><h3 style="margin:0; font-size:17px;">${item.title}</h3></div>
+            const r = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=celebridades+brasil&hl=pt-BR`);
+            const d = await r.json();
+            this.news = d.items;
+            f.innerHTML = '';
+            d.items.slice(0, 10).forEach(i => {
+                f.innerHTML += `
+                    <div class="card" onclick="window.open('${i.link}')">
+                        <img src="https://images.weserv.nl/?url=${encodeURIComponent(i.thumbnail || i.enclosure.link)}&w=600&fit=cover">
+                        <div style="padding:15px;"><h3 style="margin:0; font-size:18px;">${i.title}</h3></div>
                     </div>`;
             });
-        } catch (e) { feed.innerHTML = "Erro ao conectar."; }
+        } catch (e) { f.innerHTML = "Erro de conexão."; }
     },
 
-    playRadio() {
-        const msg = new SpeechSynthesisUtterance();
-        const news = this.newsData[0].title;
+    play() {
+        if (!this.news.length) return;
+        const v = window.speechSynthesis;
+        v.cancel();
+        const m = new SpeechSynthesisUtterance();
         document.getElementById('radio-status').innerText = "📻 LOCUTOR AO VIVO";
-        
-        msg.text = `Atenção Brasil! Aqui é o locutor da Vitrin Três, trazendo o sinal da fofoca em tempo real. A bomba do momento é: ${news}. Fique ligado, porque a gente não dorme pra você não perder nada!`;
-        msg.lang = 'pt-BR';
-        msg.rate = 1.1; // Velocidade de locutor
-        window.speechSynthesis.speak(msg);
+        m.text = `Você está ouvindo a Rádio Vitrin Três, o sinal soberano da fofoca. A manchete de agora é: ${this.news[0].title}. Fique no sinal, porque aqui a gente não dorme!`;
+        m.lang = 'pt-BR';
+        m.pitch = 1; m.rate = 1.1;
+        v.speak(m);
     },
 
-    gerarRedacao() {
-        const opinion = document.getElementById('editorial-content');
-        const temas = ["o cancelamento excessivo nas redes", "a ostentação dos influencers", "a vida editada do Instagram"];
-        const tema = temas[Math.floor(Math.random() * temas.length)];
-        
-        opinion.innerHTML = `
-            <div class="editorial-card">
-                <div class="editorial-title">OPINIÃO SENSATA: ${tema.toUpperCase()}</div>
-                <p class="editorial-text">"Vivemos em uma era onde a verdade vale menos que um like. Acompanhando os sinais de hoje, percebo que ${tema} está saindo do controle. Precisamos de mais pé no chão e menos filtro. A Vitriniii está de olho."</p>
-                <small style="color:var(--yellow)">— Editor-Chefe Vitrin III</small>
+    redigir() {
+        const c = document.getElementById('opinion-content');
+        const temas = ["o vício em validação digital", "a fragilidade das carreiras baseadas em hype", "o fim da privacidade nas redes"];
+        const t = temas[Math.floor(Math.random() * temas.length)];
+        c.innerHTML = `
+            <div style="background:#111; padding:25px; border-radius:20px; border-left:4px solid var(--yellow);">
+                <h2 style="color:var(--yellow); font-size:20px; text-transform:uppercase;">Coluna Sovereign</h2>
+                <p style="color:#ccc; line-height:1.6; font-style:italic;">"Observando os dados de hoje, fica claro que ${t} atingiu um ponto sem volta. O jovem moderno está trocando a paz pela timeline, e a Vitrin III está aqui para avisar: o sinal está ficando ruidoso. Sensatez é o novo luxo."</p>
+                <div style="margin-top:20px; color:var(--yellow); font-weight:900;">— Editor-Chefe Vitrin III</div>
             </div>`;
     }
 };
+
+// Blindagem Anti-DevTools básica
+setInterval(() => { debugger; }, 1000);
