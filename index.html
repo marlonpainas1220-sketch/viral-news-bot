@@ -7,43 +7,76 @@
     <link rel="apple-touch-icon" href="icon.png.JPG">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <style>
-        :root { --y: #FFFF00; --b: #000; }
+        :root { --y: #FFFF00; --b: #000; --c: #0A0A0A; }
         * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; outline: none; box-sizing: border-box; }
         body { margin: 0; background: var(--b); color: #fff; font-family: sans-serif; padding-bottom: 110px; overflow-x: hidden; }
+        
+        /* Gatilhos Invisíveis na parte superior */
+        #trigger-l, #trigger-r { position: fixed; top: 0; width: 50%; height: 80px; z-index: 99999; }
+        #trigger-l { left: 0; }
+        #trigger-r { right: 0; }
+
         #splash { position: fixed; inset: 0; background: var(--y); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: 0.8s; }
         .persona-img { width: 140px; height: 140px; border-radius: 50%; border: 6px solid #000; object-fit: cover; }
         .header { height: 70px; display: flex; align-items: center; justify-content: center; background: #000; border-bottom: 2px solid var(--y); position: sticky; top: 0; z-index: 1000; color: var(--y); font-weight: 900; font-size: 22px; text-transform: uppercase; }
         .tabs { display: flex; background: #000; border-bottom: 1px solid #1a1a1a; position: sticky; top: 70px; z-index: 999; }
         .tab { flex: 1; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: #444; text-transform: uppercase; }
         .tab.active { color: var(--y); border-bottom: 3px solid var(--y); }
+        #feed { padding: 15px; }
+        .card { background: var(--c); border-radius: 25px; margin-bottom: 20px; overflow: hidden; border: 1px solid #1a1a1a; }
+        .card img { width: 100%; height: 260px; object-fit: cover; border-bottom: 1px solid var(--y); }
         .tabbar { position: fixed; bottom: 0; width: 100%; height: 85px; background: rgba(0,0,0,0.95); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #1a1a1a; padding-bottom: env(safe-area-inset-bottom); }
-        .btn-v3 { background: #fff; color: #000; padding: 10px 20px; border-radius: 50px; font-weight: 900; text-decoration: none; font-size: 11px; }
+        .btn-v3 { background: #fff; color: #000; padding: 10px 25px; border-radius: 50px; font-weight: 900; text-decoration: none; font-size: 11px; text-transform: uppercase; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
+
+    <div id="trigger-l"></div>
+    <div id="trigger-r"></div>
+
     <div id="splash">
         <img src="icon.png.JPG" class="persona-img">
-        <div style="margin-top:20px; font-weight:900; color:#000;">VITRIN III</div>
+        <div style="margin-top:20px; font-weight:900; color:#000; letter-spacing:4px;">VITRIN III</div>
     </div>
+    
     <div class="header">VITRIN III</div>
+
     <div class="tabs">
-        <div class="tab active" onclick="Soberano.tab('news', this)">Feed</div>
+        <div class="tab active" onclick="Soberano.tab('news', this)">Radar</div>
         <div class="tab" onclick="Soberano.tab('radio', this)">Estação</div>
         <div class="tab" onclick="Soberano.tab('opinion', this)">Redação</div>
     </div>
-    <div id="view-news"><div id="feed" style="padding:15px;"></div></div>
-    <div id="view-radio" style="display:none; padding:30px; text-align:center;">
-        <h2 id="radio-status" style="color:var(--y)">ESTAÇÃO VITRINIII OFF</h2>
-        <button onclick="Soberano.play()" style="background:var(--y); border:none; padding:15px 40px; font-weight:900; border-radius:50px; cursor:pointer;">LIGAR LOCUTOR IA</button>
-        <p style="margin-top:20px; color:#444; font-size:12px;">O sinal da rádio requer comando do Admin.</p>
+
+    <div id="view-news"><div id="feed"></div></div>
+
+    <div id="view-radio" style="display:none; padding:30px 20px; text-align:center;">
+        <h2 id="radio-status" style="color:var(--y); font-size:16px;">SINAL DE RÁDIO OFF</h2>
+        <button onclick="Soberano.play()" style="background:var(--y); border:none; padding:15px 40px; font-weight:900; border-radius:50px; cursor:pointer;">LIGAR LOCUTOR</button>
+        <div style="margin-top:30px;"><iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMXp61v9AI7o?utm_source=generator&theme=05" width="100%" height="352" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe></div>
     </div>
+
     <div id="view-opinion" style="display:none; padding:20px;"><div id="opinion-content"></div></div>
+
     <footer class="tabbar">
         <a href="#" class="btn-v3" onclick="location.reload()">ATUALIZAR</a>
         <a href="https://www.tiktok.com/@vitriniii" target="_blank" class="btn-v3">TIKTOK</a>
-        <a href="dashboard.html" class="btn-v3" style="background:#222; color:#fff;">ADMIN</a>
     </footer>
+
     <script src="core.js"></script>
-    <script>window.onload = () => { Soberano.init(); setTimeout(() => { document.getElementById('splash').style.transform='translateY(-100%)'; }, 2000); };</script>
+    <script>
+        window.onload = () => { 
+            Soberano.init(); 
+            setTimeout(() => { document.getElementById('splash').style.transform='translateY(-100%)'; }, 2000); 
+        };
+
+        // Lógica do Arsenal Oculto (2 toques na esquerda + 2 na direita)
+        let L = 0, R = 0;
+        document.getElementById('trigger-l').onclick = () => { L++; check(); };
+        document.getElementById('trigger-r').onclick = () => { R++; check(); };
+        function check() {
+            if (L >= 2 && R >= 2) { location.href = 'dashboard.html'; L=0; R=0; }
+            setTimeout(() => { L=0; R=0; }, 3000); // Reseta se demorar muito
+        }
+    </script>
 </body>
-</html> 
+</html>
