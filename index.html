@@ -3,100 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>VITRINIII | SOVEREIGN SYSTEM</title>
+    <title>VITRINIII | THE SUPREMACY</title>
     <link rel="apple-touch-icon" href="icon.png.JPG">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --neon: #FFFF00; --bg: #000; --dark: #080808; --gray: #1a1a1a; }
+        :root { --accent: #fff; --bg: #050505; --surface: #0f0f0f; --text-dim: #888; }
         * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; outline: none; box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: #fff; font-family: 'Inter', -apple-system, sans-serif; overflow-x: hidden; padding-bottom: 120px; }
-        
-        /* Gatilhos Invisíveis (2 toques L, 2 toques R no topo) */
-        #secret-l, #secret-r { position: fixed; top: 0; width: 100px; height: 100px; z-index: 100000; }
-        #secret-l { left: 0; } #secret-r { right: 0; }
+        body { margin: 0; background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-        /* Splash Screen Hacker */
-        #splash { position: fixed; inset: 0; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: 1s; }
-        .logo-hq { width: 120px; height: 120px; border-radius: 50%; border: 2px solid var(--neon); box-shadow: 0 0 30px var(--neon); object-fit: cover; animation: glitch 1s infinite; }
-        
-        /* Header & Tabs */
-        .header { height: 80px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--gray); position: sticky; top: 0; z-index: 1000; }
-        .logo-txt { font-weight: 900; letter-spacing: 8px; color: var(--neon); font-size: 20px; text-transform: uppercase; }
-        
-        .nav-grid { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--bg); border-bottom: 1px solid var(--gray); position: sticky; top: 80px; z-index: 999; }
-        .nav-item { height: 50px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: #444; letter-spacing: 2px; }
-        .nav-item.active { color: var(--neon); border-bottom: 2px solid var(--neon); background: rgba(255,255,0,0.05); }
+        /* Arsenal Trigger (Ghost Mode) */
+        #arsenal-l, #arsenal-r { position: fixed; top: 0; width: 60px; height: 60px; z-index: 100000; }
+        #arsenal-l { left: 0; } #arsenal-r { right: 0; }
 
-        /* News Cards: Estética Cyber-Tabloid */
-        .feed { padding: 15px; }
-        .v-card { background: var(--dark); border-radius: 0; margin-bottom: 25px; border: 1px solid var(--gray); position: relative; }
-        .v-card img { width: 100%; height: 300px; object-fit: cover; filter: grayscale(100%) contrast(110%); transition: 0.4s; }
-        .v-card:hover img { filter: grayscale(0%); }
-        .v-tag { position: absolute; top: 15px; left: 15px; background: var(--neon); color: #000; padding: 4px 10px; font-size: 9px; font-weight: 900; text-transform: uppercase; }
-        .v-content { padding: 20px; }
-        .v-title { font-size: 22px; font-weight: 900; line-height: 1.1; letter-spacing: -0.5px; margin: 0; }
-        
-        /* Estação Radio Visualizer */
-        .viz-box { padding: 40px 20px; text-align: center; background: radial-gradient(circle, #111 0%, #000 100%); }
-        .bar-container { display: flex; gap: 4px; justify-content: center; align-items: flex-end; height: 60px; margin-bottom: 30px; }
-        .bar { width: 6px; background: var(--neon); animation: pulse 0.5s infinite alternate; }
-        @keyframes pulse { from { height: 10px; } to { height: 50px; } }
+        /* Splash: Minimalista Haute Couture */
+        #splash { position: fixed; inset: 0; background: #000; display: flex; align-items: center; justify-content: center; z-index: 99999; transition: transform 1s cubic-bezier(1, 0, 0, 1); }
+        .splash-logo { font-family: 'Playfair Display', serif; font-size: 40px; font-style: italic; letter-spacing: -2px; }
 
-        /* Tabbar */
-        .tabbar { position: fixed; bottom: 0; width: 100%; height: 90px; background: rgba(0,0,0,0.95); border-top: 1px solid var(--gray); display: flex; justify-content: space-around; align-items: center; backdrop-filter: blur(15px); }
-        .tab-btn { color: #444; text-decoration: none; font-size: 9px; font-weight: 900; display: flex; flex-direction: column; align-items: center; gap: 5px; }
-        .tab-btn.active { color: var(--neon); }
+        /* Header Soberano */
+        header { height: 90px; display: flex; align-items: flex-end; padding: 0 25px 15px; background: rgba(5,5,5,0.8); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 1000; border-bottom: 0.5px solid rgba(255,255,255,0.05); }
+        .brand { font-family: 'Playfair Display', serif; font-size: 28px; font-style: italic; font-weight: 900; flex: 1; }
+        .live-dot { width: 8px; height: 8px; background: red; border-radius: 50%; margin-right: 10px; box-shadow: 0 0 10px red; }
+
+        /* Navigation */
+        .nav-scroller { display: flex; gap: 25px; padding: 20px 25px; overflow-x: auto; scrollbar-width: none; background: var(--bg); position: sticky; top: 90px; z-index: 999; }
+        .nav-link { font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); transition: 0.3s; white-space: nowrap; }
+        .nav-link.active { color: #fff; }
+
+        /* Feed: The Magazine Layout */
+        #main-feed { padding: 0 20px; }
+        .story-card { margin-bottom: 45px; position: relative; }
+        .story-img-wrap { width: 100%; height: 450px; border-radius: 0; overflow: hidden; background: #111; position: relative; }
+        .story-img-wrap img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.85); transition: 0.6s cubic-bezier(0.2, 1, 0.3, 1); }
+        .story-card:active img { transform: scale(0.97); }
+        
+        .story-info { padding: 20px 0; }
+        .story-meta { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1px; margin-bottom: 8px; }
+        .story-title { font-family: 'Playfair Display', serif; font-size: 26px; line-height: 1.1; margin: 0; font-weight: 900; }
+
+        /* Radio & Editorial (Hidden content) */
+        .view-section { display: none; padding: 25px; min-height: 80vh; }
+        .editorial-text { font-family: 'Playfair Display', serif; font-size: 32px; font-style: italic; line-height: 1.2; text-align: center; padding-top: 50px; }
+
+        /* Bottom Tabbar: Stealth Design */
+        .tabbar { position: fixed; bottom: 0; width: 100%; height: 85px; background: rgba(5,5,5,0.95); backdrop-filter: blur(20px); display: flex; justify-content: space-around; padding-top: 15px; border-top: 0.5px solid rgba(255,255,255,0.05); }
+        .tab-icon { color: var(--text-dim); font-size: 10px; font-weight: 900; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .tab-icon.active { color: #fff; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
-    <div id="secret-l"></div><div id="secret-r"></div>
+    <div id="arsenal-l"></div><div id="arsenal-r"></div>
 
-    <div id="splash">
-        <img src="icon.png.JPG" class="logo-hq">
-        <div style="margin-top:30px; color:var(--neon); font-size:10px; letter-spacing:5px;">INITIALIZING_V3_CORE</div>
+    <div id="splash"><div class="splash-logo">Vitriniii</div></div>
+    
+    <header>
+        <div class="brand">Vitriniii</div>
+        <div style="display:flex; align-items:center; font-size:10px; font-weight:900; letter-spacing:1px;"><div class="live-dot"></div>SIGNAL LIVE</div>
+    </header>
+
+    <div class="nav-scroller">
+        <div class="nav-link active" onclick="Soberano.view('feed', this)">Radar Exclusive</div>
+        <div class="nav-link" onclick="Soberano.view('charts', this)">Music Charts</div>
+        <div class="nav-link" onclick="Soberano.view('radio', this)">Broadcasting</div>
+        <div class="nav-link" onclick="Soberano.view('editorial', this)">Editorial</div>
     </div>
 
-    <header class="header"><div class="logo-txt">Vitriniii</div></header>
-
-    <nav class="nav-grid">
-        <div class="nav-item active" onclick="Soberano.tab('feed', this)">LIVE_RADAR</div>
-        <div class="nav-item" onclick="Soberano.tab('radio', this)">BROADCAST</div>
-        <div class="nav-item" onclick="Soberano.tab('op', this)">EDITORIAL</div>
-    </nav>
-
-    <main id="v-feed" class="feed"></main>
-
-    <section id="v-radio" style="display:none;">
-        <div class="viz-box">
-            <div class="bar-container">
-                <div class="bar" style="animation-delay: 0.1s"></div>
-                <div class="bar" style="animation-delay: 0.3s"></div>
-                <div class="bar" style="animation-delay: 0.2s"></div>
-                <div class="bar" style="animation-delay: 0.4s"></div>
-            </div>
-            <button onclick="Soberano.play()" style="background:var(--neon); border:none; padding:18px 40px; font-weight:900; letter-spacing:2px; border-radius:5px;">SINTONIZAR IA</button>
-            <div style="margin-top:40px; border: 1px solid var(--gray);">
-                <iframe src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMXp61v9AI7o?utm_source=generator&theme=07" width="100%" height="352" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-            </div>
+    <main id="view-feed" class="view-section" style="display:block;"></main>
+    
+    <section id="view-radio" class="view-section">
+        <div style="text-align:center; padding:100px 0;">
+            <div style="font-size:12px; letter-spacing:5px; color:var(--text-dim); margin-bottom:20px;">SINTONIA SOBERANA</div>
+            <button onclick="Soberano.play()" style="background:#fff; color:#000; border:none; padding:20px 50px; font-weight:900; letter-spacing:2px; cursor:pointer;">OUVIR AGORA</button>
         </div>
     </section>
 
-    <section id="v-op" style="display:none; padding:30px;"></section>
+    <section id="view-editorial" class="view-section">
+        <div id="editorial-content" class="editorial-text"></div>
+    </section>
 
     <footer class="tabbar">
-        <div class="tab-btn active" onclick="location.reload()"><span>◈</span>REFRESH</div>
-        <a href="https://www.tiktok.com/@vitriniii" class="tab-btn"><span>◎</span>TIKTOK</a>
+        <div class="tab-icon active" onclick="location.reload()"><span>HOME</span></div>
+        <a href="https://www.tiktok.com/@vitriniii" class="tab-icon"><span>TIKTOK</span></a>
+        <div class="tab-icon" onclick="Soberano.view('editorial', this)"><span>THE CORE</span></div>
     </footer>
 
     <script src="core.js"></script>
     <script>
-        window.onload = () => { Soberano.init(); setTimeout(() => { document.getElementById('splash').style.opacity='0'; setTimeout(() => document.getElementById('splash').style.display='none', 1000); }, 2500); };
+        window.onload = () => { 
+            Soberano.init(); 
+            setTimeout(() => { document.getElementById('splash').style.transform = 'translateY(-100%)'; }, 2000); 
+        };
         
-        let L=0, R=0;
-        document.getElementById('secret-l').onclick = () => { L++; check(); };
-        document.getElementById('secret-r').onclick = () => { R++; check(); };
-        function check() { if(L>=2 && R>=2){ location.href='dashboard.html'; L=0; R=0; } setTimeout(()=>{ L=0; R=0; }, 2000); }
+        let l=0, r=0;
+        document.getElementById('arsenal-l').onclick=()=>{l++;chk();};
+        document.getElementById('arsenal-r').onclick=()=>{r++;chk();};
+        function chk(){ if(l>=2 && r>=2){location.href='dashboard.html'; l=0; r=0;} setTimeout(()=>{l=0;r=0;},2000);}
     </script>
 </body>
 </html>
