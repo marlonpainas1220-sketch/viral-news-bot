@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8"><title>COMMAND_CENTER</title>
+    <meta charset="UTF-8"><title>VITRINIII HQ</title>
     <style>
-        body { background: #000; color: #FFFF00; font-family: monospace; padding: 30px; }
-        .bunker { border: 1px solid #FFFF00; padding: 40px; max-width: 500px; margin: auto; box-shadow: 0 0 50px rgba(255,255,0,0.1); }
-        h1 { font-size: 14px; letter-spacing: 5px; text-align: center; margin-bottom: 50px; }
-        label { font-size: 9px; color: #444; display: block; margin-top: 20px; }
-        input, textarea { width: 100%; background: #050505; border: 1px solid #222; color: #FFFF00; padding: 15px; margin-top: 5px; border-radius: 0; outline: none; font-family: monospace; }
-        .btn { width: 100%; background: #FFFF00; color: #000; border: none; padding: 20px; font-weight: 900; margin-top: 40px; cursor: pointer; letter-spacing: 3px; }
+        body { background: #050505; color: #fff; font-family: 'Inter', sans-serif; padding: 40px; }
+        .hq { max-width: 500px; margin: auto; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 32px; font-style: italic; margin-bottom: 50px; }
+        label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #444; display: block; margin-top: 30px; }
+        textarea, input { width: 100%; background: #000; border: 0.5px solid #222; color: #fff; padding: 15px; margin-top: 10px; font-size: 16px; border-radius: 0; outline: none; }
+        button { width: 100%; background: #fff; color: #000; border: none; padding: 20px; font-weight: 900; text-transform: uppercase; letter-spacing: 3px; margin-top: 50px; cursor: pointer; }
     </style>
 </head>
 <body>
-    <div class="bunker">
-        <h1>VITRINIII_HQ_LOGIN</h1>
-        <label>EDITORIAL_INJECTION</label>
+    <div class="hq">
+        <h1>HQ System</h1>
+        <label>Editorial de Opinião</label>
         <textarea id="o" rows="4"></textarea>
-        <label>PARTNER_BRAND</label>
-        <input type="text" id="m">
-        <label>VOICE_SLOGAN</label>
-        <input type="text" id="f">
-        <button class="btn" onclick="save()">INJECT_DATA</button>
-        <button onclick="location.href='index.html'" style="background:none; color:#222; border:none; width:100%; margin-top:20px; font-size:9px;">TERMINATE_SESSION</button>
+        <label>Anunciante Master</label>
+        <input type="text" id="m" placeholder="Ex: Prada">
+        <label>Slogan Comercial</label>
+        <input type="text" id="f" placeholder="Ex: Luxury is a choice">
+        <button onclick="save()">Push Update</button>
+        <button onclick="location.href='index.html'" style="background:none; color:#444; font-size:10px; margin-top:20px;">Exit System</button>
     </div>
     <script>
         function save() {
-            const d = { op: document.getElementById('o').value, marca: document.getElementById('m').value, frase: document.getElementById('f').value };
-            localStorage.setItem('v3_cmd', JSON.stringify(d));
-            alert("UPLINK_SUCCESSFUL");
+            const data = { op: document.getElementById('o').value, marca: document.getElementById('m').value, frase: document.getElementById('f').value };
+            localStorage.setItem('v3_cmd', JSON.stringify(data));
+            alert("SINAL ATUALIZADO");
         }
     </script>
 </body>
