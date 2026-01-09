@@ -1,46 +1,39 @@
-const Soberano = {
+const Vitrin = {
     news: [],
-    init() { this.sync(); this.redigir(); },
+    init() { this.sync(); },
 
-    view(id, el) {
-        document.querySelectorAll('.nav-link, .tab-icon').forEach(n => n.classList.remove('active'));
+    tab(id, el) {
+        document.querySelectorAll('.chip, .tab-btn').forEach(n => n.classList.remove('active'));
         el.classList.add('active');
-        document.querySelectorAll('.view-section').forEach(s => s.style.display = 'none');
-        document.getElementById(`view-${id}`).style.display = 'block';
-        window.scrollTo(0,0);
+        document.getElementById('view-news').style.display = id === 'news' ? 'block' : 'none';
+        document.getElementById('view-station').style.display = id === 'station' ? 'block' : 'none';
     },
 
     async sync() {
-        const f = document.getElementById('view-feed');
-        f.innerHTML = "<div style='padding:100px; text-align:center; font-size:10px; letter-spacing:4px; color:#444;'>COLLECTING INTELLIGENCE...</div>";
+        const f = document.getElementById('feed');
+        f.innerHTML = "<p style='text-align:center; padding:50px; color:#444;'>SINCRONIZANDO ALGORITMO...</p>";
         const cmd = JSON.parse(localStorage.getItem('v3_cmd'));
-        
+
         try {
-            // Mix de Fofoca BR + Music Charts Global
-            const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=celebridades+pop+culture+music+charts&hl=pt-BR`);
-            const data = await res.json();
-            this.news = data.items;
+            // Busca autônoma global
+            const r = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=famosos+pop+trends&hl=pt-BR`);
+            const d = await r.json();
+            this.news = d.items;
             f.innerHTML = '';
 
+            // Propaganda Dinâmica
             if(cmd && cmd.marca) {
-                f.innerHTML += `
-                <div class="story-card" style="border: 0.5px solid #222; padding: 25px;">
-                    <div class="story-meta">Oferecimento</div>
-                    <div class="story-title" style="font-size:40px;">${cmd.marca}</div>
-                    <div style="margin-top:15px; font-size:12px; color:var(--text-dim);">${cmd.frase}</div>
-                </div>`;
+                f.innerHTML += `<div class="post" style="border: 2px solid var(--pink); padding:20px;"><div class="post-tag">OFERECIMENTO</div><h2 class="post-title" style="color:var(--pink)">${cmd.marca}</h2><p style="color:#888; font-size:12px;">${cmd.frase}</p></div>`;
             }
 
-            data.items.slice(0, 15).forEach((item, index) => {
-                const isBig = index % 4 === 0; // Alterna o layout das imagens automaticamente
+            d.items.slice(0, 15).forEach(i => {
                 f.innerHTML += `
-                <div class="story-card" onclick="window.open('${item.link}')">
-                    <div class="story-img-wrap" style="height: ${isBig ? '550px' : '350px'}">
-                        <img src="https://images.weserv.nl/?url=${encodeURIComponent(item.thumbnail || item.enclosure.link)}&w=1000&fit=cover" onerror="this.parentElement.style.display='none'">
-                    </div>
-                    <div class="story-info">
-                        <div class="story-meta">${item.pubDate} • Breaking</div>
-                        <h2 class="story-title">${item.title}</h2>
+                <div class="post" onclick="window.open('${i.link}')">
+                    <div class="post-tag">TRENDING NOW</div>
+                    <img src="https://images.weserv.nl/?url=${encodeURIComponent(i.thumbnail || i.enclosure.link)}&w=800&fit=cover" class="post-img" onerror="this.src='icon.png.JPG'">
+                    <div class="post-info">
+                        <h2 class="post-title">${i.title}</h2>
+                        <div style="margin-top:10px; color:#444; font-size:10px;">${i.pubDate}</div>
                     </div>
                 </div>`;
             });
@@ -51,16 +44,9 @@ const Soberano = {
         const cmd = JSON.parse(localStorage.getItem('v3_cmd'));
         const v = window.speechSynthesis; v.cancel();
         const m = new SpeechSynthesisUtterance();
-        let intro = "Transmissão Soberana Vitriniii. ";
-        if(cmd && cmd.marca) intro += `Patrocínio exclusivo por ${cmd.marca}. `;
-        m.text = intro + (this.news[0]?.title || "Atualizando sinal global.");
-        m.lang = 'pt-BR'; m.pitch = 0.8; // Voz mais grave e sofisticada
-        v.speak(m);
-    },
-
-    redigir() {
-        const c = document.getElementById('editorial-content');
-        const cmd = JSON.parse(localStorage.getItem('v3_cmd'));
-        c.innerText = cmd && cmd.op ? cmd.op : "A fofoca é o entretenimento dos deuses. Nós somos apenas os mensageiros.";
+        let intro = "Sinal Vitrin Três! A fofoca que você não vive sem. ";
+        if(cmd && cmd.marca) intro += `Patrocínio: ${cmd.marca}. `;
+        m.text = intro + (this.news[0]?.title || "Sintonizando radar.");
+        m.lang = 'pt-BR'; m.rate = 1.1; v.speak(m);
     }
 };
