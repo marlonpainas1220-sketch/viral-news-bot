@@ -10,7 +10,7 @@ const Soberano = {
     },
     async sync() {
         const f = document.getElementById('feed');
-        f.innerHTML = "<p style='color:yellow; text-align:center;'>Buscando sinal...</p>";
+        f.innerHTML = "<p style='color:yellow; text-align:center;'>SINCRONIZANDO SINAL...</p>";
         try {
             const r = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=fofoca+celebridades+brasil&hl=pt-BR`);
             const d = await r.json();
@@ -22,7 +22,7 @@ const Soberano = {
                     <div style="padding:15px;"><h3 style="margin:0; font-size:16px;" onclick="window.open('${i.link}')">${i.title}</h3></div>
                 </div>`;
             });
-        } catch (e) { f.innerHTML = "Erro de sinal. Recarregue."; }
+        } catch (e) { f.innerHTML = "Sinal instável. Tente atualizar."; }
     },
     play() {
         const v = window.speechSynthesis; v.cancel();
@@ -34,8 +34,8 @@ const Soberano = {
     redigir() {
         const c = document.getElementById('opinion-content');
         c.innerHTML = `<div style="background:#111; padding:25px; border-radius:20px; border-left:4px solid yellow;">
-            <h2 style="color:yellow;">REDAÇÃO SOBERANA</h2>
-            <p style="color:#ccc; font-style:italic;">"A Vitrin III filtra o ruído para você não se perder no hype."</p>
+            <h2 style="color:yellow; font-size:22px; font-weight:900;">REDAÇÃO SOBERANA</h2>
+            <p style="color:#ccc; line-height:1.6; font-style:italic;">"A Vitrin III filtra o ruído para você não se perder no hype."</p>
         </div>`;
     }
 };
