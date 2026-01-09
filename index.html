@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Viral News | Fofocas Quentes</title>
+    <style>
+        :root { --amarelo: #F9CF04; }
+        body { background: #FFFFFF; font-family: sans-serif; margin: 0; }
+        header { padding: 20px; text-align: center; border-bottom: 2px solid #eee; position: sticky; top: 0; background: #fff; z-index: 100; }
+        .logo { font-weight: 900; font-size: 26px; }
+        .feed { max-width: 500px; margin: auto; padding: 15px; }
+        .card { border-radius: 15px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-bottom: 6px solid var(--amarelo); overflow: hidden; }
+        .card img { width: 100%; height: auto; display: block; }
+        .info { padding: 15px; }
+        .badge { background: var(--amarelo); font-size: 11px; font-weight: bold; padding: 5px 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <header><div class="logo">VIRAL<span style="color:var(--amarelo)">NEWS</span></div></header>
+    <div id="feed" class="feed">Aguardando notícias do robô...</div>
+
+    <script>
+        const API = "https://rwqowtbeetzwrljrpdmh.supabase.co/rest/v1/noticias?select=*";
+        const KEY = "SUA_ANON_KEY_AQUI"; // Pegue em Settings > API no Supabase
+
+        async function carregar() {
+            const r = await fetch(API, { headers: { "apikey": KEY, "Authorization": "Bearer "+KEY } });
+            const d = await r.json();
+            if(d.length > 0) {
+                document.getElementById('feed').innerHTML = d.reverse().map(n => `
+                    <div class="card">
+                        <img src="${n.imagem || 'https://via.placeholder.com/600x400'}">
+                        <div class="info">
+                            <span class="badge">${n.categoria || 'GERAL'}</span>
+                            <h3>${n.titulo}</h3>
+                            <small>Fonte: ${n.fonte || 'Viral News'}</small>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+        carregar();
+    </script>
+</body>
+</html>
