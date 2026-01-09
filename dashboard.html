@@ -1,63 +1,33 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADM_BUNKER | VITRIN III</title>
+    <meta charset="UTF-8"><title>COMMAND_CENTER</title>
     <style>
-        body { background: #000; color: #FFFF00; font-family: 'JetBrains Mono', monospace; margin: 0; padding: 20px; overflow-x: hidden; }
-        .bunker { border: 1px solid var(--neon); padding: 30px; border-radius: 5px; max-width: 600px; margin: auto; background: rgba(255,255,0,0.02); box-shadow: inset 0 0 50px rgba(255,255,0,0.05); }
-        .header-adm { font-size: 14px; color: #444; margin-bottom: 30px; display: flex; justify-content: space-between; }
-        h2 { font-size: 18px; letter-spacing: 5px; text-align: center; margin-bottom: 40px; text-shadow: 0 0 10px var(--neon); }
-        
-        label { font-size: 9px; color: #FFFF00; letter-spacing: 2px; text-transform: uppercase; display: block; margin-top: 25px; }
-        input, textarea { width: 100%; background: #080808; border: 1px solid #222; color: #FFFF00; padding: 15px; margin-top: 5px; border-radius: 3px; font-family: 'JetBrains Mono'; outline: none; transition: 0.3s; }
-        input:focus, textarea:focus { border-color: #FFFF00; box-shadow: 0 0 15px rgba(255,255,0,0.2); }
-        
-        .btn-inject { width: 100%; background: #FFFF00; color: #000; padding: 20px; border: none; font-weight: 900; margin-top: 40px; border-radius: 3px; cursor: pointer; letter-spacing: 5px; }
-        .btn-inject:hover { background: #fff; box-shadow: 0 0 30px #fff; }
-        
-        .stats { display: flex; justify-content: space-between; margin-top: 30px; font-size: 9px; color: #444; border-top: 1px solid #111; padding-top: 20px; }
-        .terminal { background: #050505; color: #00FF00; padding: 10px; font-size: 8px; margin-top: 20px; border-radius: 5px; height: 60px; overflow-y: hidden; }
+        body { background: #000; color: #FFFF00; font-family: monospace; padding: 30px; }
+        .bunker { border: 1px solid #FFFF00; padding: 40px; max-width: 500px; margin: auto; box-shadow: 0 0 50px rgba(255,255,0,0.1); }
+        h1 { font-size: 14px; letter-spacing: 5px; text-align: center; margin-bottom: 50px; }
+        label { font-size: 9px; color: #444; display: block; margin-top: 20px; }
+        input, textarea { width: 100%; background: #050505; border: 1px solid #222; color: #FFFF00; padding: 15px; margin-top: 5px; border-radius: 0; outline: none; font-family: monospace; }
+        .btn { width: 100%; background: #FFFF00; color: #000; border: none; padding: 20px; font-weight: 900; margin-top: 40px; cursor: pointer; letter-spacing: 3px; }
     </style>
 </head>
 <body>
     <div class="bunker">
-        <div class="header-adm"><span>SECURE_SESSION: ACTIVE</span><span>SINAL_V3: 100%</span></div>
-        <h2>ARSENAL_HQ</h2>
-        
-        <label>📡 CORE_OPINION_INJECTION</label>
-        <textarea id="o" rows="4" placeholder="> Digite a nova diretriz da redação..."></textarea>
-        
-        <label>💰 AD_PARTNER_IDENTIFIER</label>
-        <input type="text" id="m" placeholder="> Nome da marca patrocinadora...">
-        
-        <label>🎙️ LOCUTION_TRIGGER_SLOGAN</label>
-        <input type="text" id="s" placeholder="> Frase de impacto do locutor IA...">
-
-        <button class="btn-inject" onclick="inject()">INJECT_DATA_NOW</button>
-        
-        <div class="terminal" id="term">> SYSTEM_READY...<br>> WAITING_FOR_COMMAND...</div>
-
-        <div class="stats">
-            <span>UPLINK: STABLE</span>
-            <span>AUTO_HEAL: ON</span>
-            <span>DOMINATION: 88%</span>
-        </div>
-        
-        <button onclick="location.href='index.html'" style="background:none; border:none; color:#222; font-size:9px; width:100%; margin-top:30px; cursor:pointer;">> TERMINATE_CONNECTION</button>
+        <h1>VITRINIII_HQ_LOGIN</h1>
+        <label>EDITORIAL_INJECTION</label>
+        <textarea id="o" rows="4"></textarea>
+        <label>PARTNER_BRAND</label>
+        <input type="text" id="m">
+        <label>VOICE_SLOGAN</label>
+        <input type="text" id="f">
+        <button class="btn" onclick="save()">INJECT_DATA</button>
+        <button onclick="location.href='index.html'" style="background:none; color:#222; border:none; width:100%; margin-top:20px; font-size:9px;">TERMINATE_SESSION</button>
     </div>
-
     <script>
-        function inject() {
-            const t = document.getElementById('term');
-            t.innerHTML += "<br>> ENCRYPTING_DATA...";
-            setTimeout(() => {
-                const data = { op: document.getElementById('o').value, marca: document.getElementById('m').value, frase: document.getElementById('s').value };
-                localStorage.setItem('v3_cmd', JSON.stringify(data));
-                t.innerHTML += "<br>> DATA_INJECTED_SUCCESSFULLY!";
-                alert("CONEXÃO SOBERANA ATUALIZADA.");
-            }, 1000);
+        function save() {
+            const d = { op: document.getElementById('o').value, marca: document.getElementById('m').value, frase: document.getElementById('f').value };
+            localStorage.setItem('v3_cmd', JSON.stringify(d));
+            alert("UPLINK_SUCCESSFUL");
         }
     </script>
 </body>
