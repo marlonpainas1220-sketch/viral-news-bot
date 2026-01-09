@@ -12,20 +12,24 @@ const Soberano = {
 
     async sync() {
         const f = document.getElementById('feed');
-        f.innerHTML = "<p style='color:var(--yellow); text-align:center;'>Sincronizando sinal...</p>";
+        f.innerHTML = "<p style='color:yellow; text-align:center; padding:50px;'>BUSCANDO SINAL...</p>";
         try {
-            const r = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=celebridades+brasil&hl=pt-BR`);
+            // Usando RSS2JSON para evitar erros de conexão (CORS)
+            const r = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=fofoca+celebridades+brasil&hl=pt-BR`);
             const d = await r.json();
             this.news = d.items;
             f.innerHTML = '';
-            d.items.slice(0, 10).forEach(i => {
+            d.items.slice(0, 15).forEach(i => {
                 f.innerHTML += `
                     <div class="card" onclick="window.open('${i.link}')">
-                        <img src="https://images.weserv.nl/?url=${encodeURIComponent(i.thumbnail || i.enclosure.link)}&w=600&fit=cover">
-                        <div style="padding:15px;"><h3 style="margin:0; font-size:18px;">${i.title}</h3></div>
+                        <img src="https://images.weserv.nl/?url=${encodeURIComponent(i.thumbnail || i.enclosure.link)}&w=800&fit=cover">
+                        <div style="padding:20px; position:relative;">
+                            <div class="persona-badge"></div>
+                            <h3 style="margin:0; font-size:18px; line-height:1.2; font-weight:900;">${i.title}</h3>
+                        </div>
                     </div>`;
             });
-        } catch (e) { f.innerHTML = "Erro de conexão."; }
+        } catch (e) { f.innerHTML = "Sinal instável. Tente novamente."; }
     },
 
     play() {
@@ -33,25 +37,20 @@ const Soberano = {
         const v = window.speechSynthesis;
         v.cancel();
         const m = new SpeechSynthesisUtterance();
-        document.getElementById('radio-status').innerText = "📻 LOCUTOR AO VIVO";
-        m.text = `Você está ouvindo a Rádio Vitrin Três, o sinal soberano da fofoca. A manchete de agora é: ${this.news[0].title}. Fique no sinal, porque aqui a gente não dorme!`;
+        document.getElementById('radio-status').innerText = "📻 AO VIVO: RÁDIO VITRIN";
+        m.text = `Sinal Vitrin Três no ar! A fofoca do momento é: ${this.news[0].title}. Fique no sinal!`;
         m.lang = 'pt-BR';
-        m.pitch = 1; m.rate = 1.1;
+        m.rate = 1.1;
         v.speak(m);
     },
 
     redigir() {
         const c = document.getElementById('opinion-content');
-        const temas = ["o vício em validação digital", "a fragilidade das carreiras baseadas em hype", "o fim da privacidade nas redes"];
-        const t = temas[Math.floor(Math.random() * temas.length)];
         c.innerHTML = `
-            <div style="background:#111; padding:25px; border-radius:20px; border-left:4px solid var(--yellow);">
-                <h2 style="color:var(--yellow); font-size:20px; text-transform:uppercase;">Coluna Sovereign</h2>
-                <p style="color:#ccc; line-height:1.6; font-style:italic;">"Observando os dados de hoje, fica claro que ${t} atingiu um ponto sem volta. O jovem moderno está trocando a paz pela timeline, e a Vitrin III está aqui para avisar: o sinal está ficando ruidoso. Sensatez é o novo luxo."</p>
-                <div style="margin-top:20px; color:var(--yellow); font-weight:900;">— Editor-Chefe Vitrin III</div>
+            <div style="background:#111; padding:25px; border-radius:20px; border-left:4px solid yellow;">
+                <h2 style="color:yellow; font-size:20px;">COLUNA SOBERANA</h2>
+                <p style="color:#ccc; line-height:1.6; font-style:italic;">"O sinal de hoje não mente: o hype vazio está cobrando seu preço. Na Vitrin III, a gente filtra o ruído para entregar a real. Sensatez é o novo luxo digital."</p>
+                <div style="margin-top:20px; color:yellow; font-weight:900;">— Editor Vitrin III</div>
             </div>`;
     }
 };
-
-// Blindagem Anti-DevTools básica
-setInterval(() => { debugger; }, 1000);
