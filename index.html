@@ -3,77 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>VITRIN III | RADIO & NEWS</title>
+    <title>VITRIN III | OFFICIAL HQ</title>
+    <link rel="apple-touch-icon" href="icon.png.JPG">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <style>
         :root { --yellow: #FFFF00; --bg: #000; --card: #0A0A0A; }
-        body { margin: 0; background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; padding-bottom: 90px; }
+        /* Blindagem Visual: Impede seleção de texto e arrastar imagens */
+        * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; outline: none; box-sizing: border-box; }
+        body { margin: 0; background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; padding-bottom: 90px; overflow-x: hidden; }
         
-        /* Cabeçalho */
-        .header { height: 70px; display: flex; align-items: center; justify-content: center; background: #000; border-bottom: 2px solid var(--yellow); position: sticky; top: 0; z-index: 1000; }
-        .logo { font-weight: 900; font-size: 24px; color: var(--yellow); text-transform: uppercase; }
+        #splash { position: fixed; inset: 0; background: var(--yellow); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: 0.8s cubic-bezier(0.19, 1, 0.22, 1); }
+        .persona-img { width: 150px; height: 150px; border-radius: 50%; border: 6px solid #000; object-fit: cover; }
 
-        /* Abas */
+        .header { height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; background: #000; border-bottom: 2px solid var(--yellow); position: sticky; top: 0; z-index: 1000; }
+        .logo { font-weight: 900; font-size: 24px; color: var(--yellow); text-transform: uppercase; letter-spacing: -1px; }
+        .portal-key { width: 30px; height: 5px; background: #1a1a1a; border-radius: 10px; cursor: pointer; }
+
         .tabs { display: flex; background: #000; border-bottom: 1px solid #1a1a1a; position: sticky; top: 70px; z-index: 999; }
-        .tab { flex: 1; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: #444; text-transform: uppercase; letter-spacing: 1px; }
+        .tab { flex: 1; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: #444; text-transform: uppercase; }
         .tab.active { color: var(--yellow); border-bottom: 3px solid var(--yellow); }
 
-        /* Rádio Player */
-        #radio-station { display: none; padding: 20px; text-align: center; background: linear-gradient(180deg, #111 0%, #000 100%); }
-        .radio-visualizer { width: 100%; height: 100px; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .bar { width: 4px; background: var(--yellow); animation: wave 1s infinite; }
-        @keyframes wave { 0%, 100% { height: 10px; } 50% { height: 50px; } }
-
-        /* Coluna de Redação */
-        .editorial-card { background: #111; padding: 25px; border-radius: 20px; border-left: 5px solid var(--yellow); margin: 20px 0; }
-        .editorial-title { font-weight: 900; font-size: 20px; margin-bottom: 10px; color: var(--yellow); }
-        .editorial-text { font-size: 15px; line-height: 1.6; color: #ccc; font-style: italic; }
+        .ads-slot { background: #080808; height: 80px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #333; border-bottom: 1px solid #1a1a1a; letter-spacing: 2px; }
 
         #feed { padding: 15px; }
-        .card { background: var(--card); border-radius: 25px; margin-bottom: 20px; overflow: hidden; border: 1px solid #1a1a1a; }
-        .card img { width: 100%; height: 250px; object-fit: cover; }
+        .card { background: var(--card); border-radius: 25px; margin-bottom: 25px; overflow: hidden; border: 1px solid #1a1a1a; }
+        .card img { width: 100%; height: 260px; object-fit: cover; border-bottom: 1px solid var(--yellow); pointer-events: none; }
         
-        .tabbar { position: fixed; bottom: 0; width: 100%; height: 70px; background: #000; border-top: 1px solid #1a1a1a; display: flex; justify-content: space-around; align-items: center; }
+        .radio-box { padding: 40px 20px; text-align: center; background: #050505; border-radius: 30px; margin: 20px; border: 1px solid #1a1a1a; }
+        .visualizer { display: flex; justify-content: center; gap: 5px; height: 40px; align-items: center; margin-bottom: 20px; }
+        .v-bar { width: 4px; background: var(--yellow); border-radius: 10px; animation: bounce 1s infinite; }
+        @keyframes bounce { 0%, 100% { height: 10px; } 50% { height: 40px; } }
+
+        .tabbar { position: fixed; bottom: 0; width: 100%; height: 75px; background: rgba(0,0,0,0.9); backdrop-filter: blur(15px); border-top: 1px solid #1a1a1a; display: flex; justify-content: space-around; align-items: center; padding-bottom: env(safe-area-inset-bottom); }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;" onkeydown="return false;">
 
-<div class="header"><div class="logo">Vitrin III</div></div>
+    <div id="splash"><img src="icon.png.JPG" class="persona-img" onerror="this.src='https://via.placeholder.com/150/FFFF00/000000?text=V3'"></div>
+    
+    <div class="header">
+        <div class="logo">Vitrin III</div>
+        <div class="portal-key" id="portal-trigger"></div>
+    </div>
 
-<div class="tabs">
-    <div class="tab active" onclick="Soberano.showTab('news')">Notícias</div>
-    <div class="tab" onclick="Soberano.showTab('radio')">Estação Radio</div>
-    <div class="tab" onclick="Soberano.showTab('opinion')">Redação</div>
-</div>
+    <div class="ads-slot">ESPAÇO GOOGLE ADSENSE</div>
 
-<div id="news-tab">
-    <div id="feed"></div>
-</div>
+    <div class="tabs">
+        <div class="tab active" onclick="Soberano.tab('news', this)">Feed</div>
+        <div class="tab" onclick="Soberano.tab('radio', this)">Estação</div>
+        <div class="tab" onclick="Soberano.tab('opinion', this)">Redação</div>
+    </div>
 
-<div id="radio-tab" style="display:none;">
-    <div id="radio-station">
-        <div class="radio-visualizer">
-            <div class="bar"></div><div class="bar" style="animation-delay:0.2s"></div><div class="bar" style="animation-delay:0.4s"></div>
-            <div class="bar" style="animation-delay:0.6s"></div><div class="bar" style="animation-delay:0.8s"></div>
-        </div>
-        <h2 id="radio-status" style="color:var(--yellow)">RÁDIO VITRINIII: OFF</h2>
-        <button onclick="Soberano.playRadio()" style="background:var(--yellow); border:none; padding:15px 30px; font-weight:900; border-radius:50px;">LIGAR LOCUTOR</button>
-        
-        <div style="margin-top:30px;">
-            <p style="color:#555; font-size:12px; margin-bottom:10px;">TOP CHARTS SPOTIFY BRASIL</p>
-            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMXp63uS0YpX?utm_source=generator&theme=0" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <div id="view-news">
+        <div id="feed"></div>
+    </div>
+
+    <div id="view-radio" style="display:none;">
+        <div class="radio-box">
+            <div class="visualizer">
+                <div class="v-bar"></div><div class="v-bar" style="animation-delay:0.2s"></div><div class="v-bar" style="animation-delay:0.4s"></div>
+                <div class="v-bar" style="animation-delay:0.6s"></div><div class="v-bar" style="animation-delay:0.8s"></div>
+            </div>
+            <h2 id="radio-status" style="color:var(--yellow); font-size:18px;">ESTAÇÃO VITRINIII OFF</h2>
+            <button onclick="Soberano.play()" style="background:var(--yellow); border:none; padding:18px 40px; font-weight:900; border-radius:50px; margin-top:10px;">LIGAR LOCUTOR</button>
+            <div style="margin-top:40px;">
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMXp61v9AI7p?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="opinion-tab" style="display:none; padding:15px;">
-    <div id="editorial-content"></div>
-</div>
+    <div id="view-opinion" style="display:none; padding:20px;">
+        <div id="opinion-content"></div>
+    </div>
 
-<footer class="tabbar"><span style="color:var(--yellow); font-size:24px;">🏠</span><span style="color:#444; font-size:24px;">📻</span><span style="color:#444; font-size:24px;">👤</span></footer>
+    <footer class="tabbar"><span style="color:var(--yellow); font-size:26px;">🏠</span><span style="color:#333; font-size:26px;">⚡</span><span style="color:#333; font-size:26px;">⚙️</span></footer>
 
-<script src="core.js"></script>
-<script>
-    window.onload = () => { Soberano.init(); };
-</script>
+    <script src="core.js"></script>
+    <script>
+        window.onload = () => { Soberano.init(); setTimeout(() => { document.getElementById('splash').style.transform='translateY(-100%)'; }, 2000); };
+        // Portal Secreto HQ
+        let t; const gat = document.getElementById('portal-trigger');
+        gat.addEventListener('touchstart', (e) => { e.preventDefault(); gat.style.background="var(--yellow)"; t=setTimeout(()=>location.href='dashboard.html',3000); });
+        gat.addEventListener('touchend', () => { gat.style.background="#1a1a1a"; clearTimeout(t); });
+    </script>
 </body>
 </html>
