@@ -3,101 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>VITRINIII | THE SUPREMACY</title>
+    <title>VITRINIII | SOCIAL DOPAMINE</title>
     <link rel="apple-touch-icon" href="icon.png.JPG">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
     <style>
-        :root { --accent: #fff; --bg: #050505; --surface: #0f0f0f; --text-dim: #888; }
-        * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; outline: none; box-sizing: border-box; }
-        body { margin: 0; background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        :root { --pink: #FF2D55; --bg: #0A0A0A; --card: #1C1C1E; --glass: rgba(255,255,255,0.1); }
+        * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
+        body { margin: 0; background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif; overflow-x: hidden; }
 
-        /* Arsenal Trigger (Ghost Mode) */
-        #arsenal-l, #arsenal-r { position: fixed; top: 0; width: 60px; height: 60px; z-index: 100000; }
-        #arsenal-l { left: 0; } #arsenal-r { right: 0; }
+        /* Gatilho Oculto: 2 toques L + 2 toques R no topo */
+        #h-l, #h-r { position: fixed; top: 0; width: 80px; height: 80px; z-index: 100000; }
+        #h-l { left: 0; } #h-r { right: 0; }
 
-        /* Splash: Minimalista Haute Couture */
-        #splash { position: fixed; inset: 0; background: #000; display: flex; align-items: center; justify-content: center; z-index: 99999; transition: transform 1s cubic-bezier(1, 0, 0, 1); }
-        .splash-logo { font-family: 'Playfair Display', serif; font-size: 40px; font-style: italic; letter-spacing: -2px; }
+        /* Splash Dinâmica */
+        #splash { position: fixed; inset: 0; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 99999; transition: 0.6s ease-in; }
+        .spin-logo { width: 150px; height: 150px; border-radius: 50%; border: 4px solid var(--pink); object-fit: cover; box-shadow: 0 0 30px var(--pink); }
 
-        /* Header Soberano */
-        header { height: 90px; display: flex; align-items: flex-end; padding: 0 25px 15px; background: rgba(5,5,5,0.8); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 1000; border-bottom: 0.5px solid rgba(255,255,255,0.05); }
-        .brand { font-family: 'Playfair Display', serif; font-size: 28px; font-style: italic; font-weight: 900; flex: 1; }
-        .live-dot { width: 8px; height: 8px; background: red; border-radius: 50%; margin-right: 10px; box-shadow: 0 0 10px red; }
+        /* Header TikTok Style */
+        header { height: 70px; display: flex; align-items: center; padding: 0 20px; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #222; }
+        .logo-txt { font-family: 'Syncopate', sans-serif; font-size: 18px; color: #fff; text-transform: uppercase; flex: 1; letter-spacing: -1px; }
+        .logo-txt span { color: var(--pink); }
 
-        /* Navigation */
-        .nav-scroller { display: flex; gap: 25px; padding: 20px 25px; overflow-x: auto; scrollbar-width: none; background: var(--bg); position: sticky; top: 90px; z-index: 999; }
-        .nav-link { font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); transition: 0.3s; white-space: nowrap; }
-        .nav-link.active { color: #fff; }
+        /* Horizontal Categories */
+        .cat-scroll { display: flex; gap: 12px; padding: 15px 20px; overflow-x: auto; scrollbar-width: none; background: var(--bg); }
+        .chip { padding: 8px 20px; background: var(--card); border-radius: 50px; font-size: 12px; font-weight: 700; white-space: nowrap; color: #888; border: 1px solid transparent; }
+        .chip.active { background: var(--pink); color: #fff; box-shadow: 0 4px 15px rgba(255,45,85,0.4); }
 
-        /* Feed: The Magazine Layout */
-        #main-feed { padding: 0 20px; }
-        .story-card { margin-bottom: 45px; position: relative; }
-        .story-img-wrap { width: 100%; height: 450px; border-radius: 0; overflow: hidden; background: #111; position: relative; }
-        .story-img-wrap img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.85); transition: 0.6s cubic-bezier(0.2, 1, 0.3, 1); }
-        .story-card:active img { transform: scale(0.97); }
-        
-        .story-info { padding: 20px 0; }
-        .story-meta { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1px; margin-bottom: 8px; }
-        .story-title { font-family: 'Playfair Display', serif; font-size: 26px; line-height: 1.1; margin: 0; font-weight: 900; }
+        /* News Feed: Arredondado e Imersivo */
+        #feed { padding: 0 15px; }
+        .post { background: var(--card); border-radius: 28px; margin-bottom: 20px; overflow: hidden; border: 1px solid #2c2c2e; position: relative; }
+        .post-img { width: 100%; height: 400px; object-fit: cover; }
+        .post-tag { position: absolute; top: 15px; left: 15px; background: var(--pink); padding: 5px 12px; border-radius: 10px; font-size: 10px; font-weight: 900; }
+        .post-info { padding: 20px; }
+        .post-title { font-size: 20px; font-weight: 900; line-height: 1.2; margin: 0; letter-spacing: -0.5px; }
 
-        /* Radio & Editorial (Hidden content) */
-        .view-section { display: none; padding: 25px; min-height: 80vh; }
-        .editorial-text { font-family: 'Playfair Display', serif; font-size: 32px; font-style: italic; line-height: 1.2; text-align: center; padding-top: 50px; }
+        /* Player Estação: A Logo do Manequim flutuando */
+        .station-ui { padding: 40px 20px; text-align: center; display: none; }
+        .station-logo { width: 200px; height: 200px; border-radius: 40px; margin-bottom: 30px; border: 3px solid var(--pink); box-shadow: 0 20px 40px rgba(255,45,85,0.3); }
+        .btn-play { background: #fff; color: #000; border: none; padding: 18px 60px; border-radius: 50px; font-weight: 900; font-size: 14px; box-shadow: 0 10px 20px rgba(255,255,255,0.2); }
 
-        /* Bottom Tabbar: Stealth Design */
-        .tabbar { position: fixed; bottom: 0; width: 100%; height: 85px; background: rgba(5,5,5,0.95); backdrop-filter: blur(20px); display: flex; justify-content: space-around; padding-top: 15px; border-top: 0.5px solid rgba(255,255,255,0.05); }
-        .tab-icon { color: var(--text-dim); font-size: 10px; font-weight: 900; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 5px; }
-        .tab-icon.active { color: #fff; }
+        /* Tabbar Neon */
+        .tabbar { position: fixed; bottom: 15px; left: 15px; right: 15px; height: 70px; background: rgba(30,30,30,0.9); backdrop-filter: blur(20px); border-radius: 35px; display: flex; justify-content: space-around; align-items: center; border: 1px solid rgba(255,255,255,0.1); }
+        .tab-btn { color: #666; text-decoration: none; font-size: 10px; font-weight: 900; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .tab-btn.active { color: var(--pink); }
     </style>
 </head>
-<body oncontextmenu="return false;">
+<body>
 
-    <div id="arsenal-l"></div><div id="arsenal-r"></div>
+    <div id="h-l"></div><div id="h-r"></div>
 
-    <div id="splash"><div class="splash-logo">Vitriniii</div></div>
-    
-    <header>
-        <div class="brand">Vitriniii</div>
-        <div style="display:flex; align-items:center; font-size:10px; font-weight:900; letter-spacing:1px;"><div class="live-dot"></div>SIGNAL LIVE</div>
-    </header>
-
-    <div class="nav-scroller">
-        <div class="nav-link active" onclick="Soberano.view('feed', this)">Radar Exclusive</div>
-        <div class="nav-link" onclick="Soberano.view('charts', this)">Music Charts</div>
-        <div class="nav-link" onclick="Soberano.view('radio', this)">Broadcasting</div>
-        <div class="nav-link" onclick="Soberano.view('editorial', this)">Editorial</div>
+    <div id="splash">
+        <img src="icon.png.JPG" class="spin-logo">
+        <h2 style="font-family:'Syncopate'; font-size:14px; margin-top:20px;">VITRIN<span>III</span></h2>
     </div>
 
-    <main id="view-feed" class="view-section" style="display:block;"></main>
-    
-    <section id="view-radio" class="view-section">
-        <div style="text-align:center; padding:100px 0;">
-            <div style="font-size:12px; letter-spacing:5px; color:var(--text-dim); margin-bottom:20px;">SINTONIA SOBERANA</div>
-            <button onclick="Soberano.play()" style="background:#fff; color:#000; border:none; padding:20px 50px; font-weight:900; letter-spacing:2px; cursor:pointer;">OUVIR AGORA</button>
-        </div>
-    </section>
+    <header><div class="logo-txt">VITRIN<span>III</span></div></header>
 
-    <section id="view-editorial" class="view-section">
-        <div id="editorial-content" class="editorial-text"></div>
+    <div class="cat-scroll">
+        <div class="chip active" onclick="Vitrin.tab('news', this)">🔥 SEU RADAR</div>
+        <div class="chip" onclick="Vitrin.tab('station', this)">📻 ESTAÇÃO</div>
+        <div class="chip" onclick="Vitrin.tab('charts', this)">📊 CHARTS</div>
+    </div>
+
+    <main id="view-news"><div id="feed"></div></main>
+
+    <section id="view-station" class="station-ui">
+        <img src="icon.png.JPG" class="station-logo">
+        <h1 style="font-size:32px; font-weight:900; margin:0;">ESTAÇÃO V3</h1>
+        <p style="color:#666; margin-bottom:30px;">LOCUTOR IA NO AR</p>
+        <button class="btn-play" onclick="Vitrin.play()">PLAY BROADCAST</button>
+        <div style="margin-top:40px;"><iframe style="border-radius:25px;" src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMX86u6AIund3" width="100%" height="352" frameBorder="0" allow="autoplay; encrypted-media;"></iframe></div>
     </section>
 
     <footer class="tabbar">
-        <div class="tab-icon active" onclick="location.reload()"><span>HOME</span></div>
-        <a href="https://www.tiktok.com/@vitriniii" class="tab-icon"><span>TIKTOK</span></a>
-        <div class="tab-icon" onclick="Soberano.view('editorial', this)"><span>THE CORE</span></div>
+        <div class="tab-btn active" onclick="location.reload()">HOME</div>
+        <a href="https://www.tiktok.com/@vitriniii" class="tab-btn">TIKTOK</a>
+        <div class="tab-btn" onclick="Vitrin.tab('news', this)">REDAÇÃO</div>
     </footer>
 
     <script src="core.js"></script>
     <script>
-        window.onload = () => { 
-            Soberano.init(); 
-            setTimeout(() => { document.getElementById('splash').style.transform = 'translateY(-100%)'; }, 2000); 
-        };
+        window.onload = () => { Vitrin.init(); setTimeout(() => document.getElementById('splash').style.display='none', 2000); };
         
         let l=0, r=0;
-        document.getElementById('arsenal-l').onclick=()=>{l++;chk();};
-        document.getElementById('arsenal-r').onclick=()=>{r++;chk();};
+        document.getElementById('h-l').onclick=()=>{l++;chk();};
+        document.getElementById('h-r').onclick=()=>{r++;chk();};
         function chk(){ if(l>=2 && r>=2){location.href='dashboard.html'; l=0; r=0;} setTimeout(()=>{l=0;r=0;},2000);}
     </script>
 </body>
