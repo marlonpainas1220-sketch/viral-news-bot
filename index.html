@@ -3,38 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>VITRIN III</title>
-    <link rel="apple-touch-icon" href="icon.png.JPG">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>VITRIN III | RADIO & NEWS</title>
     <style>
-        :root { --yellow: #FFFF00; --bg: #000; }
-        body { margin: 0; background: #000; color: #fff; font-family: sans-serif; padding-bottom: 80px; }
-        #splash { position: fixed; inset: 0; background: var(--yellow); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: 0.8s; }
-        .persona { width: 150px; height: 150px; border-radius: 50%; border: 5px solid #000; }
-        .nav { height: 70px; display: flex; align-items: center; justify-content: center; background: #000; border-bottom: 2px solid var(--yellow); position: sticky; top: 0; z-index: 1000; }
-        .tabs { display: flex; background: #000; border-bottom: 1px solid #222; position: sticky; top: 70px; z-index: 999; }
-        .tab { flex: 1; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900; color: #444; }
+        :root { --yellow: #FFFF00; --bg: #000; --card: #0A0A0A; }
+        body { margin: 0; background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; padding-bottom: 90px; }
+        
+        /* Cabeçalho */
+        .header { height: 70px; display: flex; align-items: center; justify-content: center; background: #000; border-bottom: 2px solid var(--yellow); position: sticky; top: 0; z-index: 1000; }
+        .logo { font-weight: 900; font-size: 24px; color: var(--yellow); text-transform: uppercase; }
+
+        /* Abas */
+        .tabs { display: flex; background: #000; border-bottom: 1px solid #1a1a1a; position: sticky; top: 70px; z-index: 999; }
+        .tab { flex: 1; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: #444; text-transform: uppercase; letter-spacing: 1px; }
         .tab.active { color: var(--yellow); border-bottom: 3px solid var(--yellow); }
-        .ads-box { background: #080808; height: 80px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #333; border-bottom: 1px solid #1a1a1a; }
+
+        /* Rádio Player */
+        #radio-station { display: none; padding: 20px; text-align: center; background: linear-gradient(180deg, #111 0%, #000 100%); }
+        .radio-visualizer { width: 100%; height: 100px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .bar { width: 4px; background: var(--yellow); animation: wave 1s infinite; }
+        @keyframes wave { 0%, 100% { height: 10px; } 50% { height: 50px; } }
+
+        /* Coluna de Redação */
+        .editorial-card { background: #111; padding: 25px; border-radius: 20px; border-left: 5px solid var(--yellow); margin: 20px 0; }
+        .editorial-title { font-weight: 900; font-size: 20px; margin-bottom: 10px; color: var(--yellow); }
+        .editorial-text { font-size: 15px; line-height: 1.6; color: #ccc; font-style: italic; }
+
         #feed { padding: 15px; }
-        .card { background: #0A0A0A; border-radius: 25px; margin-bottom: 25px; overflow: hidden; border: 1px solid #1a1a1a; position: relative; }
-        .card img { width: 100%; height: 250px; object-fit: cover; border-bottom: 1px solid var(--yellow); }
-        .badge { position: absolute; top: -30px; right: 20px; width: 60px; height: 60px; border-radius: 50%; border: 3px solid var(--yellow); background-image: url('icon.png.JPG'); background-size: cover; }
+        .card { background: var(--card); border-radius: 25px; margin-bottom: 20px; overflow: hidden; border: 1px solid #1a1a1a; }
+        .card img { width: 100%; height: 250px; object-fit: cover; }
+        
+        .tabbar { position: fixed; bottom: 0; width: 100%; height: 70px; background: #000; border-top: 1px solid #1a1a1a; display: flex; justify-content: space-around; align-items: center; }
     </style>
 </head>
 <body>
-    <div id="splash"><img src="icon.png.JPG" class="persona"></div>
-    <div class="nav"><h2 style="color:var(--yellow); margin:0;">VITRIN III</h2></div>
-    <div class="ads-box">ESPAÇO GOOGLE ADSENSE</div>
-    <div class="tabs">
-        <div class="tab active" id="t1" onclick="Soberano.carregar('HYPE')">Radar</div>
-        <div class="tab" id="t2" onclick="Soberano.carregar('SUBS')">Subcelebs</div>
-        <div class="tab" id="t3" onclick="Soberano.carregar('X')">Trends</div>
-    </div>
+
+<div class="header"><div class="logo">Vitrin III</div></div>
+
+<div class="tabs">
+    <div class="tab active" onclick="Soberano.showTab('news')">Notícias</div>
+    <div class="tab" onclick="Soberano.showTab('radio')">Estação Radio</div>
+    <div class="tab" onclick="Soberano.showTab('opinion')">Redação</div>
+</div>
+
+<div id="news-tab">
     <div id="feed"></div>
-    <script src="core.js"></script>
-    <script>
-        window.onload = () => { Soberano.carregar('HYPE'); setTimeout(() => { document.getElementById('splash').style.display='none'; }, 2000); };
-    </script>
+</div>
+
+<div id="radio-tab" style="display:none;">
+    <div id="radio-station">
+        <div class="radio-visualizer">
+            <div class="bar"></div><div class="bar" style="animation-delay:0.2s"></div><div class="bar" style="animation-delay:0.4s"></div>
+            <div class="bar" style="animation-delay:0.6s"></div><div class="bar" style="animation-delay:0.8s"></div>
+        </div>
+        <h2 id="radio-status" style="color:var(--yellow)">RÁDIO VITRINIII: OFF</h2>
+        <button onclick="Soberano.playRadio()" style="background:var(--yellow); border:none; padding:15px 30px; font-weight:900; border-radius:50px;">LIGAR LOCUTOR</button>
+        
+        <div style="margin-top:30px;">
+            <p style="color:#555; font-size:12px; margin-bottom:10px;">TOP CHARTS SPOTIFY BRASIL</p>
+            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMXp63uS0YpX?utm_source=generator&theme=0" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+    </div>
+</div>
+
+<div id="opinion-tab" style="display:none; padding:15px;">
+    <div id="editorial-content"></div>
+</div>
+
+<footer class="tabbar"><span style="color:var(--yellow); font-size:24px;">🏠</span><span style="color:#444; font-size:24px;">📻</span><span style="color:#444; font-size:24px;">👤</span></footer>
+
+<script src="core.js"></script>
+<script>
+    window.onload = () => { Soberano.init(); };
+</script>
 </body>
 </html>
