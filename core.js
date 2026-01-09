@@ -12,7 +12,7 @@ const Soberano = {
         document.getElementById(btnId).classList.add('active');
 
         const feed = document.getElementById('feed');
-        feed.innerHTML = `<div style="text-align:center; padding:100px 0; color:yellow; font-weight:900; letter-spacing:2px;">CAPTURANDO SINAL...</div>`;
+        feed.innerHTML = `<div style="text-align:center; padding:100px 0; color:yellow; font-weight:900;">BUSCANDO SINAL...</div>`;
         
         try {
             const res = await fetch(this.BRIDGE + encodeURIComponent(this.FEEDS[tipo]));
@@ -37,7 +37,7 @@ const Soberano = {
         const desc = data.desc.replace(/<[^>]*>?/gm, '').substring(0, 130) + '...';
         let midia = data.img ? `<img src="https://images.weserv.nl/?url=${encodeURIComponent(data.img)}&w=800&fit=cover" class="card-media">` : '';
         
-        if (data.img && data.img.includes('tiktok.com')) {
+        if (data.img && (data.img.includes('tiktok.com') || data.img.includes('tiktok'))) {
             const vid = data.img.split('/').pop().split('?')[0];
             midia = `<div style="border-bottom:2px solid yellow; background:#000;"><blockquote class="tiktok-embed" data-video-id="${vid}"><section></section></blockquote></div>`;
         }
@@ -49,7 +49,7 @@ const Soberano = {
                     <div class="persona-badge" style="${oficial ? '' : 'filter:grayscale(1); opacity:0.3; border-color:#222;'}"></div>
                     <h3 style="margin:0 0 15px 0; font-size:22px; line-height:1.1; font-weight:900;">${data.titulo}</h3>
                     <p style="color:#666; font-size:14px; line-height:1.5; margin:0;">${desc}</p>
-                    <div style="margin-top:20px; font-size:11px; font-weight:900; color:yellow; letter-spacing:2px;">
+                    <div style="margin-top:20px; font-size:11px; font-weight:900; color:yellow;">
                         ${oficial ? 'SINAL VERIFICADO @VITRINIII' : 'SINAL DE RADAR'}
                     </div>
                 </div>
