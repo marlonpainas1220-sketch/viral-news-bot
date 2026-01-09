@@ -125,3 +125,51 @@
     <script>window.onload = () => { Soberano.init(); setTimeout(() => { document.getElementById('splash').style.transform='translateY(-100%)'; }, 2000); };</script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>VITRIN III | RADIO & NEWS</title>
+    <link rel="apple-touch-icon" href="icon.png.JPG">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <style>
+        :root { --yellow: #FFFF00; --bg: #000; }
+        * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; outline: none; }
+        body { margin: 0; background: var(--bg); color: #fff; font-family: sans-serif; padding-bottom: 100px; }
+        #splash { position: fixed; inset: 0; background: var(--yellow); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: 0.8s; }
+        .persona-img { width: 140px; height: 140px; border-radius: 50%; border: 6px solid #000; object-fit: cover; }
+        .header { height: 70px; display: flex; align-items: center; justify-content: center; background: #000; border-bottom: 2px solid var(--yellow); position: sticky; top: 0; z-index: 1000; font-weight: 900; color: var(--yellow); font-size: 24px; }
+        .tabs { display: flex; background: #000; border-bottom: 1px solid #1a1a1a; position: sticky; top: 70px; z-index: 999; }
+        .tab { flex: 1; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: #444; text-transform: uppercase; }
+        .tab.active { color: var(--yellow); border-bottom: 3px solid var(--yellow); }
+        .radio-box { padding: 30px 20px; text-align: center; }
+        .btn-locutor { background: var(--yellow); border: none; padding: 15px 40px; font-weight: 900; border-radius: 50px; cursor: pointer; }
+        .tabbar { position: fixed; bottom: 0; width: 100%; height: 85px; background: rgba(0,0,0,0.95); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #1a1a1a; }
+        .tk-btn { background: #fff; color: #000; padding: 10px 20px; border-radius: 50px; font-weight: 900; text-decoration: none; font-size: 11px; }
+    </style>
+</head>
+<body>
+    <div id="splash"><img src="icon.png.JPG" class="persona-img"><div style="margin-top:20px; font-weight:900; color:#000;">VITRIN III</div></div>
+    <div class="header">VITRIN III</div>
+    <div class="tabs">
+        <div class="tab active" onclick="Soberano.tab('news', this)">Feed</div>
+        <div class="tab" onclick="Soberano.tab('radio', this)">Estação</div>
+        <div class="tab" onclick="Soberano.tab('opinion', this)">Redação</div>
+    </div>
+    <div id="view-news"><div id="feed" style="padding:15px;"></div></div>
+    <div id="view-radio" style="display:none;"><div class="radio-box">
+        <h2 id="radio-status" style="color:var(--yellow)">RÁDIO VITRINIII OFF</h2>
+        <button class="btn-locutor" onclick="Soberano.play()">LIGAR LOCUTOR IA</button>
+        <div style="margin-top:30px;"><iframe src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMX86u6AIund" width="100%" height="352" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe></div>
+    </div></div>
+    <div id="view-opinion" style="display:none; padding:20px;"><div id="opinion-content"></div></div>
+    <footer class="tabbar">
+        <a href="#" class="tk-btn" onclick="location.reload()">ATUALIZAR</a>
+        <a href="https://www.tiktok.com/@vitriniii" target="_blank" class="tk-btn">TIKTOK</a>
+        <a href="dashboard.html" class="tk-btn" style="background:#222; color:#fff;">ADMIN</a>
+    </footer>
+    <script src="core.js"></script>
+    <script>window.onload = () => { Soberano.init(); setTimeout(() => { document.getElementById('splash').style.transform='translateY(-100%)'; }, 2000); };</script>
+</body>
+</html>
