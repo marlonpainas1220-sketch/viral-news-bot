@@ -1,32 +1,116 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8"><title>HQ_BUNKER</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VITRINIII | ADMIN_LUXE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { background: #000; color: #FF2D55; font-family: monospace; padding: 30px; }
-        .box { border: 1px solid #FF2D55; padding: 40px; max-width: 500px; margin: auto; border-radius: 30px; }
-        label { font-size: 10px; display: block; margin-top: 20px; color: #444; }
-        input, textarea { width: 100%; background: #050505; border: 1px solid #222; color: #fff; padding: 15px; margin-top: 10px; border-radius: 15px; outline: none; }
-        button { width: 100%; background: #FF2D55; color: #fff; border: none; padding: 20px; font-weight: 900; border-radius: 50px; margin-top: 40px; cursor: pointer; }
+        :root { --primary-gradient: linear-gradient(135deg, #7F00FF, #E100FF); --bg-white: #FFFFFF; --text-dark: #1A1A1A; --border-light: #E0E0E0; }
+        * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg-white); color: var(--text-dark); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; }
+
+        .container { max-width: 500px; margin: auto; padding: 30px; background: var(--card-bg); border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .header-admin { text-align: center; margin-bottom: 40px; }
+        .header-admin h1 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--text-dark); margin: 0; }
+        .header-admin p { font-size: 12px; color: var(--text-light); margin-top: 10px; }
+
+        label { display: block; font-size: 11px; font-weight: 700; color: var(--text-light); text-transform: uppercase; margin-bottom: 10px; padding-left: 5px; }
+        input, textarea { 
+            width: 100%; background: #fff; border: 1px solid var(--border-light); border-radius: 12px; 
+            padding: 15px; color: var(--text-dark); font-family: 'Inter', sans-serif; font-size: 16px; 
+            margin-bottom: 25px; transition: 0.3s; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+        input:focus, textarea:focus { border-color: var(--primary-gradient); box-shadow: 0 0 0 2px rgba(127, 0, 255, 0.1); }
+
+        .btn-action { 
+            width: 100%; background: var(--primary-gradient); color: #fff; border: none; 
+            border-radius: 50px; padding: 18px; font-weight: 700; font-size: 15px; 
+            letter-spacing: 1px; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 8px 20px rgba(127, 0, 255, 0.2); margin-top: 30px;
+        }
+        .btn-action:active { transform: translateY(2px) scale(0.98); box-shadow: 0 4px 10px rgba(127, 0, 255, 0.1); }
+
+        .btn-exit { 
+            width: 100%; background: none; border: 1px solid var(--border-light); color: var(--text-light); 
+            border-radius: 50px; padding: 15px; margin-top: 20px; font-weight: 700; font-size: 12px; 
+            letter-spacing: 1px; cursor: pointer; transition: 0.3s;
+        }
+
+        #password-overlay {
+            position: fixed; inset: 0; background: rgba(255,255,255,0.95); z-index: 100000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        #password-input { width: 80%; max-width: 300px; padding: 15px; border-radius: 12px; border: 1px solid var(--border-light); margin-bottom: 20px; text-align: center; }
+        #password-btn { background: var(--primary-gradient); color: #fff; border: none; padding: 12px 30px; border-radius: 50px; cursor: pointer; }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h1>COMMAND_CENTER</h1>
-        <label>EDITORIAL_INJECTION</label>
-        <textarea id="o" rows="4"></textarea>
-        <label>SPONSOR_ID</label>
-        <input type="text" id="m">
-        <label>SLOGAN_VOICE</label>
-        <input type="text" id="s">
-        <button onclick="save()">INJECT_UPLINK</button>
-        <button onclick="location.href='index.html'" style="background:none; color:#444; font-size:10px;">DISCONNECT</button>
+
+    <div id="password-overlay">
+        <h2 style="font-family: 'Playfair Display', serif; margin-bottom: 30px;">AUTH REQUIRED</h2>
+        <input type="password" id="admin-pass" placeholder="ENTER KEY">
+        <button id="password-btn" onclick="authenticate()">UNLOCK</button>
     </div>
+
+    <div class="container" style="display:none;" id="admin-panel">
+        <div class="header-admin">
+            <h1>VITRINIII HQ</h1>
+            <p>CONTENT & STRATEGY MANAGEMENT</p>
+        </div>
+
+        <label>EDITORIAL CONTENT</label>
+        <textarea id="txt_op" rows="4" placeholder="Defina a voz e opinião editorial do Vitriniii..."></textarea>
+
+        <label>PARTNER BRAND (Ex: Louis Vuitton)</label>
+        <input type="text" id="txt_marca" placeholder="Nome da marca que será promovida.">
+
+        <label>VOICE OVER SLOGAN (Ex: A elegância que você merece.)</label>
+        <input type="text" id="txt_frase" placeholder="Frase que a IA usará na Estação V3.">
+
+        <button class="btn-action" onclick="injectData()">PUSH GLOBAL UPDATE</button>
+        <button class="btn-exit" onclick="location.href='index.html'">LOGOUT & RETURN</button>
+    </div>
+
     <script>
-        function save() {
-            const d = { op: document.getElementById('o').value, marca: document.getElementById('m').value, frase: document.getElementById('s').value };
-            localStorage.setItem('v3_cmd', JSON.stringify(d));
-            alert("SINAL_INJETADO");
+        const MASTER_KEY = "vitriniii2024"; // ATENÇÃO: Troque por uma chave mais complexa!
+
+        function authenticate() {
+            const inputPass = document.getElementById('admin-pass').value;
+            if (inputPass === MASTER_KEY) {
+                document.getElementById('password-overlay').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'block';
+                loadExistingData();
+            } else {
+                alert("ACCESS DENIED. Incorrect Key.");
+            }
+        }
+
+        function loadExistingData() {
+            const current = JSON.parse(localStorage.getItem('v5_cmd') || '{}');
+            document.getElementById('txt_op').value = current.op || '';
+            document.getElementById('txt_marca').value = current.marca || '';
+            document.getElementById('txt_frase').value = current.frase || '';
+        }
+
+        function injectData() {
+            const data = {
+                op: document.getElementById('txt_op').value,
+                marca: document.getElementById('txt_marca').value,
+                frase: document.getElementById('txt_frase').value,
+                time: Date.now()
+            };
+            
+            localStorage.setItem('v5_cmd', JSON.stringify(data));
+            
+            const btn = document.querySelector('.btn-action');
+            btn.textContent = "UPDATE SUCCESSFUL!";
+            btn.style.background = 'linear-gradient(135deg, #00C6FF, #0072FF)'; // Gradiente azul para sucesso
+            
+            setTimeout(() => {
+                btn.textContent = "PUSH GLOBAL UPDATE";
+                btn.style.background = 'var(--primary-gradient)';
+            }, 2000);
         }
     </script>
 </body>
