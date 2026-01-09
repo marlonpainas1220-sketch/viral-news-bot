@@ -1,76 +1,77 @@
-const Soberano = {
-    IMAGE_PROXY: "https://images.weserv.nl/?url=",
-    RSS_BRIDGE: "https://api.rss2json.com/v1/api.json?rss_url=",
-    
-    FEEDS: {
-        HYPE: "https://news.google.com/rss/search?q=fofoca+celebridades+brasil&hl=pt-BR",
-        SUBS: "https://alfinetei.com.br/feed",
-        X: "https://news.google.com/rss/search?q=trending+topics+brasil&hl=pt-BR"
-    },
+/* 🛡️ VITRIN III - CORE SOBERANO V.PERSONA */
+(function() {
+    const BRIDGE = "https://api.rss2json.com/v1/api.json?rss_url=";
+    const FEEDS = {
+        HYPE: encodeURIComponent("https://news.google.com/rss/search?q=fofoca+celebridades+brasil&hl=pt-BR"),
+        SUBS: encodeURIComponent("https://noticiasdatv.uol.com.br/rss/celebridades"),
+        TREND: encodeURIComponent("https://news.google.com/rss/search?q=trending+topics+twitter+brasil&hl=pt-BR")
+    };
+    const IMG_PROXY = "https://images.weserv.nl/?url=";
 
-    async carregar(tipo) {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        const btnId = tipo === 'HYPE' ? 'btn-hype' : (tipo === 'SUBS' ? 'btn-subs' : 'btn-trend');
-        const tab = document.getElementById(btnId);
-        if(tab) tab.classList.add('active');
+    window.Soberano = {
+        async abaHype() { this.renderizar('Hype Feed', FEEDS.HYPE, 't-hype', true); },
+        async abaSubs() { this.renderizar('Subcelebs BR', FEEDS.SUBS, 't-subs', true); },
+        async abaTrend() { this.renderizar('Trending Topics', FEEDS.TREND, 't-trend', false); },
 
-        const feed = document.getElementById('feed');
-        feed.innerHTML = `<div style="text-align:center; padding:100px 0; color:yellow; font-weight:900;">BUSCANDO SINAL...</div>`;
-        
-        try {
-            const res = await fetch(this.RSS_BRIDGE + encodeURIComponent(this.FEEDS[tipo]));
+        async renderizar(label, url, tabId, comManual) {
+            document.querySelectorAll('.tab-item').forEach(i => i.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            
+            const container = document.getElementById('app-content');
+            container.innerHTML = `<div style="text-align:center; padding:50px; color:var(--gold);">Sincronizando ${label}...</div>`;
+            
+            const res = await fetch(BRIDGE + url);
             const data = await res.json();
-            feed.innerHTML = '';
+            container.innerHTML = '';
 
-            const manual = JSON.parse(localStorage.getItem('noticia_manual'));
-            if(manual && (Date.now() - manual.timestamp < 14400000)) this.render(feed, manual, true);
+            if(comManual) {
+                const manual = JSON.parse(localStorage.getItem('noticia_manual'));
+                if(manual && (Date.now() - manual.timestamp < 14400000)) {
+                    this.buildCard(container, manual, true);
+                }
+            }
 
             if(data.items) {
-                data.items.slice(0, 15).forEach((item, index) => {
-                    this.render(feed, {
-                        titulo: item.title,
-                        desc: item.description,
-                        img: item.thumbnail || item.enclosure?.link || this.extractImg(item.description),
-                        link: item.link
-                    }, false);
-                    
-                    if((index + 1) % 3 === 0) {
-                        feed.innerHTML += `<div class="ads-slot">PUBLICIDADE</div>`;
+                data.items.slice(0, 12).forEach(n => {
+                    if(tabId === 't-trend') {
+                        this.buildTrend(container, n);
+                    } else {
+                        this.buildCard(container, { title: n.title, desc: n.description, img: n.thumbnail || n.enclosure?.link, link: n.link }, false);
                     }
                 });
             }
-        } catch (e) { 
-            feed.innerHTML = '<div style="color:red; text-align:center; padding:50px;">ERRO DE SINCRO</div>'; 
-        }
-    },
+        },
 
-    extractImg(html) {
-        const m = html.match(/src="([^"]+)"/);
-        return m ? m[1] : null;
-    },
+        buildCard(target, data, isOfficial) {
+            const cleanDesc = data.desc ? data.desc.replace(/<[^>]*>?/gm, '').substring(0, 120) + '...' : '';
+            let media = data.img ? `<img src="${IMG_PROXY + encodeURIComponent(data.img)}&w=600&fit=cover" class="card-img">` : '';
+            
+            if (data.img && data.img.includes('tiktok.com')) {
+                const vid = data.img.split('/').pop().split('?')[0];
+                media = `<div style="width:100%; border-radius:15px; overflow:hidden;"><blockquote class="tiktok-embed" data-video-id="${vid}"><section></section></blockquote></div>`;
+            }
 
-    render(target, data, oficial) {
-        const desc = data.desc.replace(/<[^>]*>?/gm, '').substring(0, 130) + '...';
-        let finalImg = data.img ? this.IMAGE_PROXY + encodeURIComponent(data.img) + "&w=800&fit=cover" : "https://via.placeholder.com/800x400/000/FFFF00?text=SINAL+VITRIN";
-        
-        let midia = `<img src="${finalImg}" class="card-media" onerror="this.src='https://via.placeholder.com/800x400/000/FFFF00?text=VITRIN+III'">`;
-        
-        if (data.img && (data.img.includes('tiktok.com') || data.img.includes('tiktok'))) {
-            const vid = data.img.split('/').pop().split('?')[0];
-            midia = `<div style="border-bottom:2px solid yellow; background:#000;"><blockquote class="tiktok-embed" data-video-id="${vid}"><section></section></blockquote></div>`;
-        }
-
-        target.innerHTML += `
-            <div class="card" onclick="window.open('${data.link || '#'}', '_blank')">
-                ${midia}
-                <div class="card-info">
-                    <div class="persona-badge" style="${oficial ? '' : 'filter:grayscale(1); opacity:0.3; border-color:#222;'}"></div>
-                    <h3 style="margin:0 0 15px 0; font-size:20px; line-height:1.2; font-weight:900;">${data.titulo}</h3>
-                    <p style="color:#666; font-size:14px; line-height:1.5; margin:0;">${desc}</p>
-                    <div style="margin-top:20px; font-size:11px; font-weight:900; color:yellow;">
-                        ${oficial ? 'SINAL VERIFICADO @VITRINIII' : 'SINAL DE RADAR'}
+            target.innerHTML += `
+                <div class="news-card" onclick="window.open('${data.link || '#'}', '_blank')">
+                    ${media}
+                    <div class="card-body">
+                        <h3 style="margin:0 0 10px 0; font-size:18px;">${data.title}</h3>
+                        <p style="font-size:14px; color:var(--text-dim); line-height:1.5; margin:0;">${cleanDesc}</p>
+                        <div style="display:flex; align-items:center; gap:10px; margin-top:15px;">
+                            <div class="card-persona" style="${isOfficial ? '' : 'filter:grayscale(1); opacity:0.4;'}"></div>
+                            <span style="font-size:11px; font-weight:900; color:var(--gold);">${isOfficial ? '⚡ PERSONA VERIFIED' : 'SINAL EXTERNO'}</span>
+                        </div>
                     </div>
-                </div>
-            </div>`;
-    }
-};
+                </div>`;
+        },
+
+        buildTrend(target, data) {
+            target.innerHTML += `
+                <div style="padding:15px; border-bottom:1px solid var(--border);" onclick="window.open('${data.link}', '_blank')">
+                    <div style="color:var(--text-dim); font-size:11px;">Trending agora no sinal</div>
+                    <div style="font-weight:700; font-size:16px; margin:4px 0;">${data.title}</div>
+                    <div style="color:var(--gold); font-size:11px; font-weight:900;">+ ${(Math.random()*100).toFixed(1)}k menções</div>
+                </div>`;
+        }
+    };
+})();
