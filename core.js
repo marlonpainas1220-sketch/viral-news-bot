@@ -47,4 +47,4 @@ const Soberano = {
             <p style="color:#ccc; font-style:italic;">"${txt}"</p>
         </div>`;
     }
-};
+}; 
