@@ -34,8 +34,8 @@ const Soberano = {
     redigir() {
         const c = document.getElementById('opinion-content');
         c.innerHTML = `<div style="background:#111; padding:25px; border-radius:20px; border-left:4px solid yellow;">
-            <h2 style="color:yellow; font-size:22px; font-weight:900;">REDAÇÃO SOBERANA</h2>
-            <p style="color:#ccc; line-height:1.6; font-style:italic;">"A Vitrin III filtra o ruído para você não se perder no hype."</p>
+            <h2 style="color:yellow;">REDAÇÃO SOBERANA</h2>
+            <p style="color:#ccc; font-style:italic;">"A Vitrin III filtra o ruído para você não se perder no hype."</p>
         </div>`;
     }
 };
