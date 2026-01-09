@@ -2,89 +2,86 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viral News | Fofocas Quentes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>VITRIN III | SINAL AMARELO</title>
+    <link rel="apple-touch-icon" href="icon.png.JPG">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <style>
-        :root { --amarelo: #F9CF04; }
-        body { background: #FFFFFF; font-family: 'Arial', sans-serif; margin: 0; color: #1a1a1a; }
-        header { 
-            padding: 15px; 
-            text-align: center; 
-            border-bottom: 2px solid #f2f2f2; 
-            position: sticky; 
-            top: 0; 
-            background: #fff; 
-            z-index: 100; 
-        }
-        .logo { font-weight: 900; font-size: 26px; letter-spacing: -1px; }
-        .feed { max-width: 500px; margin: auto; padding: 15px; }
-        .card { 
-            border-radius: 15px; 
-            margin-bottom: 30px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
-            border-bottom: 6px solid var(--amarelo); 
-            overflow: hidden; 
-            background: #fff;
-        }
-        .card img { width: 100%; height: auto; display: block; background: #eee; }
-        .info { padding: 15px; }
-        .badge { 
-            background: var(--amarelo); 
-            font-size: 10px; 
-            font-weight: bold; 
-            padding: 5px 10px; 
-            border-radius: 5px; 
-            text-transform: uppercase;
-        }
-        h3 { margin: 10px 0; font-size: 20px; line-height: 1.3; }
-        small { color: #888; font-style: italic; }
+        :root { --amarelo: #FFFF00; --preto: #000; --cinza: #0A0A0A; }
+        * { -webkit-touch-callout: none; -webkit-user-select: none; box-sizing: border-box; outline: none; }
+        body { margin: 0; font-family: -apple-system, sans-serif; background: var(--preto); color: #fff; padding-bottom: 80px; overflow-x: hidden; }
+        
+        /* Splash Screen Amarela com Persona */
+        #splash { position: fixed; inset: 0; background: var(--amarelo); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: 0.8s ease-in-out; }
+        .persona-img { width: 160px; height: 160px; border-radius: 50%; border: 6px solid var(--preto); object-fit: cover; box-shadow: 0 0 30px rgba(0,0,0,0.3); }
+
+        /* Header SDR Yellow */
+        .nav { height: 75px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; position: sticky; top: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(25px); z-index: 1000; border-bottom: 2px solid var(--amarelo); }
+        .logo-txt { font-weight: 900; font-size: 24px; color: var(--amarelo); letter-spacing: -1px; }
+        .portal { width: 40px; height: 6px; background: #1a1a1a; border-radius: 10px; cursor: pointer; transition: 0.3s; }
+        
+        /* Abas Estilo X-Mirror */
+        .tabs { display: flex; width: 100%; background: var(--preto); border-bottom: 1px solid #1a1a1a; position: sticky; top: 75px; z-index: 999; }
+        .tab { flex: 1; height: 55px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900; color: #444; text-transform: uppercase; letter-spacing: 1px; }
+        .tab.active { color: var(--amarelo); border-bottom: 3px solid var(--amarelo); }
+
+        /* Feed Intelligence */
+        #feed { padding: 15px; }
+        .card { background: var(--cinza); border-radius: 30px; margin-bottom: 30px; overflow: hidden; border: 1px solid #151515; position: relative; }
+        .card-media { width: 100%; height: 260px; object-fit: cover; border-bottom: 1px solid var(--amarelo); opacity: 0.9; }
+        .card-info { padding: 25px; position: relative; }
+        .persona-badge { position: absolute; top: -35px; right: 25px; width: 70px; height: 70px; border-radius: 50%; border: 3px solid var(--amarelo); background-image: url('icon.png.JPG'); background-size: cover; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        
+        /* Tab Bar Superior */
+        .tabbar { position: fixed; bottom: 0; width: 100%; height: 75px; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); border-top: 1px solid #1a1a1a; display: flex; justify-content: space-around; align-items: center; padding-bottom: env(safe-area-inset-bottom); }
+        .icon { font-size: 26px; color: #333; transition: 0.3s; }
+        .icon.active { color: var(--amarelo); text-shadow: 0 0 15px var(--amarelo); }
     </style>
 </head>
-<body>
-    <header>
-        <div class="logo">VIRAL<span style="color:var(--amarelo)">NEWS</span></div>
-    </header>
-
-    <div id="feed" class="feed">
-        <p style="text-align:center;">Buscando as últimas fofocas...</p>
+<body oncontextmenu="return false;">
+    <div id="splash">
+        <img src="icon.png.JPG" class="persona-img">
+        <div style="margin-top:25px; font-weight:900; letter-spacing:6px; color:var(--preto); font-size:16px;">VITRIN III</div>
     </div>
+    
+    <nav class="nav">
+        <div class="logo-txt">VITRIN III</div>
+        <div class="portal" id="portal-trigger"></div>
+    </nav>
 
+    <div class="tabs">
+        <div class="tab active" id="btn-hype" onclick="Soberano.carregar('HYPE')">Radar</div>
+        <div class="tab" id="btn-subs" onclick="Soberano.carregar('SUBS')">Subcelebs</div>
+        <div class="tab" id="btn-trend" onclick="Soberano.carregar('X')">Trends</div>
+    </div>
+    
+    <div id="feed"></div>
+
+    <footer class="tabbar">
+        <span class="icon active">🏠</span>
+        <span class="icon">⚡</span>
+        <span class="icon">⚙️</span>
+    </footer>
+
+    <script src="core.js"></script>
+    <script async src="https://www.tiktok.com/embed.js"></script>
     <script>
-        // Blindagem: Configurações do Supabase
-        const API_URL = "https://rwqowtbeetzwrljrpdmh.supabase.co/rest/v1/noticias?select=*";
-        const SUPABASE_KEY = "SUA_ANON_KEY_AQUI"; // Pegue em Settings > API
-
-        async function carregarNoticias() {
-            const feedElement = document.getElementById('feed');
-            try {
-                const response = await fetch(API_URL, {
-                    headers: {
-                        "apikey": SUPABASE_KEY,
-                        "Authorization": `Bearer ${SUPABASE_KEY}`
-                    }
-                });
-                const noticias = await response.json();
-
-                if (noticias.length === 0) {
-                    feedElement.innerHTML = "<p style='text-align:center;'>Nenhuma fofoca encontrada ainda. O robô está trabalhando!</p>";
-                    return;
-                }
-
-                feedElement.innerHTML = noticias.reverse().map(n => `
-                    <div class="card">
-                        <img src="${n.imagem || 'https://via.placeholder.com/600x400?text=Viral+News'}" alt="Notícia">
-                        <div class="info">
-                            <span class="badge">${n.categoria || 'FAMOSOS'}</span>
-                            <h3>${n.titulo}</h3>
-                            <small>Fonte: ${n.fonte || 'Viral News'}</small>
-                        </div>
-                    </div>
-                `).join('');
-            } catch (error) {
-                feedElement.innerHTML = "<p style='text-align:center; color:red;'>Erro ao conectar com o servidor. Tente novamente mais tarde.</p>";
-            }
-        }
-        carregarNoticias();
+        window.onload = () => {
+            if (typeof Soberano !== 'undefined') Soberano.carregar('HYPE');
+            setTimeout(() => { 
+                const s = document.getElementById('splash');
+                s.style.opacity='0'; s.style.transform='scale(1.2)';
+                setTimeout(()=>s.remove(), 800); 
+            }, 2500);
+        };
+        let t; const gat = document.getElementById('portal-trigger');
+        gat.addEventListener('touchstart', (e) => { 
+            e.preventDefault(); 
+            gat.style.background="var(--amarelo)"; 
+            t=setTimeout(()=>location.href='dashboard.html',3000); 
+        });
+        gat.addEventListener('touchend', () => { gat.style.background="#1a1a1a"; clearTimeout(t); });
     </script>
 </body>
 </html>
