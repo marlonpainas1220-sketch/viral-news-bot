@@ -8,84 +8,79 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
     <style>
-        :root { --pink: #FF2D55; --bg: #0A0A0A; --card: #1C1C1E; --glass: rgba(255,255,255,0.1); }
-        * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; box-sizing: border-box; }
+        :root { --pink: #FF2D55; --bg: #050505; --card: #121212; }
+        * { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; outline: none; box-sizing: border-box; }
         body { margin: 0; background: var(--bg); color: #fff; font-family: 'Outfit', sans-serif; overflow-x: hidden; }
 
-        /* Gatilho Oculto: 2 toques L + 2 toques R no topo */
+        /* Secret Arsenal Trigger */
         #h-l, #h-r { position: fixed; top: 0; width: 80px; height: 80px; z-index: 100000; }
         #h-l { left: 0; } #h-r { right: 0; }
 
         /* Splash Dinâmica */
-        #splash { position: fixed; inset: 0; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 99999; transition: 0.6s ease-in; }
-        .spin-logo { width: 150px; height: 150px; border-radius: 50%; border: 4px solid var(--pink); object-fit: cover; box-shadow: 0 0 30px var(--pink); }
+        #splash { position: fixed; inset: 0; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 99999; transition: 0.8s; }
+        .logo-hq { width: 140px; height: 140px; border-radius: 40px; border: 3px solid var(--pink); box-shadow: 0 0 40px var(--pink); object-fit: cover; }
 
         /* Header TikTok Style */
-        header { height: 70px; display: flex; align-items: center; padding: 0 20px; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #222; }
-        .logo-txt { font-family: 'Syncopate', sans-serif; font-size: 18px; color: #fff; text-transform: uppercase; flex: 1; letter-spacing: -1px; }
-        .logo-txt span { color: var(--pink); }
+        header { height: 75px; display: flex; align-items: center; padding: 0 20px; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 1000; border-bottom: 0.5px solid #222; }
+        .logo { font-family: 'Syncopate', sans-serif; font-size: 20px; letter-spacing: -1px; }
+        .logo span { color: var(--pink); }
 
-        /* Horizontal Categories */
-        .cat-scroll { display: flex; gap: 12px; padding: 15px 20px; overflow-x: auto; scrollbar-width: none; background: var(--bg); }
-        .chip { padding: 8px 20px; background: var(--card); border-radius: 50px; font-size: 12px; font-weight: 700; white-space: nowrap; color: #888; border: 1px solid transparent; }
-        .chip.active { background: var(--pink); color: #fff; box-shadow: 0 4px 15px rgba(255,45,85,0.4); }
+        /* Smart Tabs */
+        .scroller { display: flex; gap: 10px; padding: 15px 20px; overflow-x: auto; scrollbar-width: none; background: var(--bg); }
+        .chip { padding: 10px 22px; background: var(--card); border-radius: 50px; font-size: 11px; font-weight: 900; white-space: nowrap; color: #555; border: 1px solid #222; transition: 0.3s; }
+        .chip.active { background: var(--pink); color: #fff; border-color: var(--pink); box-shadow: 0 4px 15px rgba(255,45,85,0.3); }
 
-        /* News Feed: Arredondado e Imersivo */
+        /* News Cards: Desejo Inconsciente */
         #feed { padding: 0 15px; }
-        .post { background: var(--card); border-radius: 28px; margin-bottom: 20px; overflow: hidden; border: 1px solid #2c2c2e; position: relative; }
-        .post-img { width: 100%; height: 400px; object-fit: cover; }
-        .post-tag { position: absolute; top: 15px; left: 15px; background: var(--pink); padding: 5px 12px; border-radius: 10px; font-size: 10px; font-weight: 900; }
-        .post-info { padding: 20px; }
-        .post-title { font-size: 20px; font-weight: 900; line-height: 1.2; margin: 0; letter-spacing: -0.5px; }
+        .post { background: var(--card); border-radius: 35px; margin-bottom: 25px; overflow: hidden; border: 1px solid #1a1a1a; position: relative; }
+        .post-img-box { width: 100%; height: 420px; position: relative; }
+        .post-img { width: 100%; height: 100%; object-fit: cover; }
+        .post-gradient { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 50%); }
+        .post-tag { position: absolute; top: 20px; left: 20px; background: var(--pink); padding: 6px 15px; border-radius: 12px; font-size: 10px; font-weight: 900; letter-spacing: 1px; }
+        .post-content { padding: 25px; }
+        .post-title { font-size: 24px; font-weight: 900; line-height: 1.1; letter-spacing: -0.5px; }
 
-        /* Player Estação: A Logo do Manequim flutuando */
-        .station-ui { padding: 40px 20px; text-align: center; display: none; }
-        .station-logo { width: 200px; height: 200px; border-radius: 40px; margin-bottom: 30px; border: 3px solid var(--pink); box-shadow: 0 20px 40px rgba(255,45,85,0.3); }
-        .btn-play { background: #fff; color: #000; border: none; padding: 18px 60px; border-radius: 50px; font-weight: 900; font-size: 14px; box-shadow: 0 10px 20px rgba(255,255,255,0.2); }
-
-        /* Tabbar Neon */
-        .tabbar { position: fixed; bottom: 15px; left: 15px; right: 15px; height: 70px; background: rgba(30,30,30,0.9); backdrop-filter: blur(20px); border-radius: 35px; display: flex; justify-content: space-around; align-items: center; border: 1px solid rgba(255,255,255,0.1); }
-        .tab-btn { color: #666; text-decoration: none; font-size: 10px; font-weight: 900; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-        .tab-btn.active { color: var(--pink); }
+        /* Tabbar */
+        .tabbar { position: fixed; bottom: 20px; left: 20px; right: 20px; height: 75px; background: rgba(20,20,20,0.9); backdrop-filter: blur(20px); border-radius: 40px; display: flex; justify-content: space-around; align-items: center; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .tab-icon { color: #444; font-size: 9px; font-weight: 900; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .tab-icon.active { color: var(--pink); }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
     <div id="h-l"></div><div id="h-r"></div>
 
     <div id="splash">
-        <img src="icon.png.JPG" class="spin-logo">
-        <h2 style="font-family:'Syncopate'; font-size:14px; margin-top:20px;">VITRIN<span>III</span></h2>
+        <img src="icon.png.JPG" class="logo-hq">
+        <div style="margin-top:25px; font-family:'Syncopate'; font-size:12px; letter-spacing:4px; color:var(--pink);">UPLINKING...</div>
     </div>
 
-    <header><div class="logo-txt">VITRIN<span>III</span></div></header>
+    <header><div class="logo">VITRIN<span>III</span></div></header>
 
-    <div class="cat-scroll">
-        <div class="chip active" onclick="Vitrin.tab('news', this)">🔥 SEU RADAR</div>
-        <div class="chip" onclick="Vitrin.tab('station', this)">📻 ESTAÇÃO</div>
-        <div class="chip" onclick="Vitrin.tab('charts', this)">📊 CHARTS</div>
+    <div class="scroller">
+        <div class="chip active" onclick="V3.tab('news', this)">🔥 SEU RADAR</div>
+        <div class="chip" onclick="V3.tab('charts', this)">📊 CHARTS GLOBAL</div>
+        <div class="chip" onclick="V3.tab('trends', this)">🐦 TWITTER TRENDS</div>
+        <div class="chip" onclick="V3.tab('station', this)">📻 ESTAÇÃO V3</div>
     </div>
 
     <main id="view-news"><div id="feed"></div></main>
 
-    <section id="view-station" class="station-ui">
-        <img src="icon.png.JPG" class="station-logo">
-        <h1 style="font-size:32px; font-weight:900; margin:0;">ESTAÇÃO V3</h1>
-        <p style="color:#666; margin-bottom:30px;">LOCUTOR IA NO AR</p>
-        <button class="btn-play" onclick="Vitrin.play()">PLAY BROADCAST</button>
-        <div style="margin-top:40px;"><iframe style="border-radius:25px;" src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMX86u6AIund3" width="100%" height="352" frameBorder="0" allow="autoplay; encrypted-media;"></iframe></div>
+    <section id="view-station" style="display:none; text-align:center; padding:50px 20px;">
+        <img src="icon.png.JPG" style="width:220px; border-radius:40px; border:2px solid var(--pink); box-shadow:0 15px 40px rgba(255,45,85,0.2);">
+        <h1 style="font-size:32px; font-weight:900; margin-top:30px;">ESTAÇÃO V3</h1>
+        <button onclick="V3.play()" style="background:#fff; color:#000; border:none; padding:18px 50px; border-radius:50px; font-weight:900; margin-top:20px;">PLAY BROADCAST</button>
     </section>
 
     <footer class="tabbar">
-        <div class="tab-btn active" onclick="location.reload()">HOME</div>
-        <a href="https://www.tiktok.com/@vitriniii" class="tab-btn">TIKTOK</a>
-        <div class="tab-btn" onclick="Vitrin.tab('news', this)">REDAÇÃO</div>
+        <div class="tab-icon active" onclick="location.reload()">HOME</div>
+        <div class="tab-icon" onclick="V3.tab('news', this)">FEED</div>
+        <a href="https://www.tiktok.com/@vitriniii" class="tab-icon">TIKTOK</a>
     </footer>
 
     <script src="core.js"></script>
     <script>
-        window.onload = () => { Vitrin.init(); setTimeout(() => document.getElementById('splash').style.display='none', 2000); };
-        
+        window.onload = () => { V3.init(); setTimeout(() => document.getElementById('splash').style.display='none', 2500); };
         let l=0, r=0;
         document.getElementById('h-l').onclick=()=>{l++;chk();};
         document.getElementById('h-r').onclick=()=>{r++;chk();};
