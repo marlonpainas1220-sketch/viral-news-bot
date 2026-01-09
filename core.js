@@ -13,32 +13,40 @@ const Soberano = {
     async sync() {
         const f = document.getElementById('feed');
         f.innerHTML = "<p style='color:yellow; text-align:center; padding:50px;'>CAPTURANDO SINAL...</p>";
+        const cmd = JSON.parse(localStorage.getItem('v3_comando'));
+        
         try {
-            // Bridge RSS estável
             const r = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=fofoca+celebridades+brasil&hl=pt-BR`);
             const d = await r.json();
             this.news = d.items;
             f.innerHTML = '';
-            d.items.slice(0, 15).forEach(i => {
-                f.innerHTML += `
-                    <div class="card" onclick="window.open('${i.link}')">
-                        <img src="https://images.weserv.nl/?url=${encodeURIComponent(i.thumbnail || i.enclosure.link)}&w=800&fit=cover" onerror="this.src='icon.png.JPG'">
-                        <div style="padding:20px; position:relative;">
-                            <div class="persona-badge" style="background-image: url('icon.png.JPG')"></div>
-                            <h3 style="margin:0; font-size:19px; line-height:1.2; font-weight:900;">${i.title}</h3>
-                        </div>
-                    </div>`;
+
+            // Se tiver Patrocinador no Admin, ele aparece no topo
+            if(cmd && cmd.marca) {
+                f.innerHTML += `<div class="card" style="border: 2px solid yellow; padding: 20px; background: #050505;">
+                    <small style="color:yellow; font-weight:900;">OFERECIMENTO</small>
+                    <h2 style="margin:5px 0;">${cmd.marca}</h2>
+                    <p style="color:#666; margin:0;">${cmd.slogan}</p>
+                </div>`;
+            }
+
+            d.items.slice(0, 10).forEach(i => {
+                f.innerHTML += `<div class="card" onclick="window.open('${i.link}')"><img src="https://images.weserv.nl/?url=${encodeURIComponent(i.thumbnail || i.enclosure.link)}&w=800"><div style="padding:15px;"><h3>${i.title}</h3></div></div>`;
             });
-        } catch (e) { f.innerHTML = "<p style='text-align:center; color:red;'>SINAL INSTÁVEL. RECARREGUE.</p>"; }
+        } catch (e) { f.innerHTML = "Erro de sinal."; }
     },
 
     play() {
-        if (!this.news.length) return;
+        const cmd = JSON.parse(localStorage.getItem('v3_comando'));
         const v = window.speechSynthesis;
         v.cancel();
         const m = new SpeechSynthesisUtterance();
-        document.getElementById('radio-status').innerText = "📻 AO VIVO: LOCUTOR VITRIN";
-        m.text = `Sinal Vitrin Três no ar! A bomba agora é: ${this.news[0].title}. Fique no sinal soberano!`;
+        document.getElementById('radio-status').innerText = "📻 AO VIVO";
+
+        let texto = "Sintonizado na Vitrin Três! ";
+        if(cmd && cmd.marca) texto = `Este sinal é um oferecimento de ${cmd.marca}, ${cmd.slogan}. Agora, a manchete: `;
+        
+        m.text = texto + (this.news[0] ? this.news[0].title : "Aguardando sinal.");
         m.lang = 'pt-BR';
         m.rate = 1.1;
         v.speak(m);
@@ -46,13 +54,8 @@ const Soberano = {
 
     redigir() {
         const c = document.getElementById('opinion-content');
-        const temas = ["o vício em likes", "a ostentação vazia", "o fim da privacidade"];
-        const t = temas[Math.floor(Math.random() * temas.length)];
-        c.innerHTML = `
-            <div style="background:#111; padding:25px; border-radius:20px; border-left:4px solid yellow;">
-                <h2 style="color:yellow; font-size:18px; font-weight:900;">COLUNA SOVEREIGN</h2>
-                <p style="color:#ccc; line-height:1.6; font-style:italic;">"O sinal de hoje mostra que ${t} atingiu o limite. Na Vitrin III, a gente não apenas posta, a gente analisa. Menos hype, mais verdade."</p>
-                <div style="margin-top:20px; color:yellow; font-weight:900;">— Editor-Chefe Vitrin III</div>
-            </div>`;
+        const cmd = JSON.parse(localStorage.getItem('v3_comando'));
+        let txt = cmd && cmd.texto ? cmd.texto : "A Vitrin III filtra o ruído para você não se perder no hype.";
+        c.innerHTML = `<div style="background:#111; padding:25px; border-radius:20px; border-left:4px solid yellow;"><h2 style="color:yellow;">REDAÇÃO SOBERANA</h2><p style="color:#ccc; font-style:italic;">"${txt}"</p></div>`;
     }
 };
