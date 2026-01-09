@@ -3,48 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>VITRIN III | SINAL AMARELO</title>
-    <link rel="apple-touch-icon" href="logo.jpg">
+    <title>VITRIN III | TABLOIDE</title>
+    <link rel="apple-touch-icon" href="icon.png.JPG">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <style>
-        :root { --yellow: #FFFF00; --bg: #000; --card: #0F0F0F; --border: #1A1A1A; }
+        :root { --amarelo: #FFFF00; --bg: #000; --card: #0F0F0F; --border: #1A1A1A; }
         * { -webkit-touch-callout: none; -webkit-user-select: none; box-sizing: border-box; outline: none; }
         body { margin: 0; font-family: -apple-system, sans-serif; background: var(--bg); color: #fff; padding-bottom: 90px; }
         
-        /* Splash Blindada */
-        #splash { position: fixed; inset: 0; background: var(--yellow); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: 0.8s ease-in-out; }
-        .persona-img { width: 150px; height: 150px; border-radius: 50%; border: 6px solid #000; object-fit: cover; box-shadow: 0 0 30px rgba(0,0,0,0.3); }
+        /* Splash Screen Persona */
+        #splash { position: fixed; inset: 0; background: var(--amarelo); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: 0.8s ease-in-out; }
+        .persona-img { width: 150px; height: 150px; border-radius: 50%; border: 6px solid #000; object-fit: cover; }
 
         /* Header SDR */
-        .nav { height: 75px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; position: sticky; top: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 1000; border-bottom: 2px solid var(--yellow); }
-        .logo-txt { font-weight: 900; font-size: 24px; color: var(--yellow); letter-spacing: -1px; }
+        .nav { height: 75px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; position: sticky; top: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 1000; border-bottom: 2px solid var(--amarelo); }
+        .logo-txt { font-weight: 900; font-size: 24px; color: var(--amarelo); text-transform: uppercase; }
         .portal { width: 40px; height: 6px; background: #1a1a1a; border-radius: 10px; cursor: pointer; }
         
-        /* Espaço Google Ads */
-        .ads-slot { background: #080808; width: 100%; min-height: 80px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #1a1a1a; color: #333; font-size: 10px; font-weight: 900; letter-spacing: 2px; }
+        /* Espaço Ads */
+        .ads-slot { background: #080808; width: 100%; min-height: 80px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #1a1a1a; color: #333; font-size: 9px; font-weight: 900; letter-spacing: 2px; }
 
-        /* Abas Estilo Tabloide */
+        /* Abas */
         .tabs { display: flex; width: 100%; background: #000; border-bottom: 1px solid #1a1a1a; position: sticky; top: 75px; z-index: 999; }
-        .tab { flex: 1; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900; color: #444; text-transform: uppercase; }
-        .tab.active { color: var(--yellow); border-bottom: 3px solid var(--yellow); }
+        .tab { flex: 1; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900; color: #444; }
+        .tab.active { color: var(--amarelo); border-bottom: 3px solid var(--amarelo); }
 
         /* Feed */
         #feed { padding: 15px; }
         .card { background: var(--card); border-radius: 30px; margin-bottom: 30px; overflow: hidden; border: 1px solid #151515; position: relative; }
-        .card-media { width: 100%; height: 260px; object-fit: cover; border-bottom: 1px solid var(--yellow); opacity: 0.9; }
+        .card-media { width: 100%; height: 260px; object-fit: cover; border-bottom: 1px solid var(--amarelo); display: block; }
         .card-info { padding: 25px; position: relative; }
-        .persona-badge { position: absolute; top: -35px; right: 25px; width: 70px; height: 70px; border-radius: 50%; border: 3px solid var(--yellow); background-image: url('logo.jpg'); background-size: cover; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .persona-badge { position: absolute; top: -35px; right: 25px; width: 70px; height: 70px; border-radius: 50%; border: 3px solid var(--amarelo); background-image: url('icon.png.JPG'); background-size: cover; background-position: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
         
-        /* Tab Bar */
-        .tabbar { position: fixed; bottom: 0; width: 100%; height: 75px; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); border-top: 1px solid #1a1a1a; display: flex; justify-content: space-around; align-items: center; padding-bottom: env(safe-area-inset-bottom); }
+        /* Menu Inferior */
+        .tabbar { position: fixed; bottom: 0; width: 100%; height: 75px; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); border-top: 1px solid #1a1a1a; display: flex; justify-content: space-around; align-items: center; }
         .icon { font-size: 26px; color: #333; }
-        .icon.active { color: var(--yellow); }
+        .icon.active { color: var(--amarelo); }
     </style>
 </head>
 <body oncontextmenu="return false;">
     <div id="splash">
-        <img src="logo.jpg" class="persona-img" onerror="this.src='https://via.placeholder.com/150/FFFF00/000000?text=VITRIN'">
+        <img src="icon.png.JPG" class="persona-img" onerror="this.src='https://via.placeholder.com/150/FFFF00/000000?text=VITRIN'">
         <div style="margin-top:25px; font-weight:900; color:#000; font-size:18px;">VITRIN III</div>
     </div>
     
@@ -53,7 +53,7 @@
         <div class="portal" id="portal-trigger"></div>
     </nav>
 
-    <div class="ads-slot">ESPAÇO PARA PUBLICIDADE</div>
+    <div class="ads-slot">ESPAÇO GOOGLE ADSENSE</div>
 
     <div class="tabs">
         <div class="tab active" id="btn-hype" onclick="Soberano.carregar('HYPE')">Hype</div>
@@ -69,21 +69,22 @@
         <span class="icon">⚙️</span>
     </footer>
 
-    <script src="engine.js"></script>
+    <script src="core.js"></script>
     <script async src="https://www.tiktok.com/embed.js"></script>
     <script>
         window.onload = () => {
             if (typeof Soberano !== 'undefined') Soberano.carregar('HYPE');
             setTimeout(() => { 
                 const s = document.getElementById('splash');
-                s.style.opacity='0'; s.style.transform='scale(1.2)';
-                setTimeout(()=>s.remove(), 800); 
+                if(s) {
+                    s.style.opacity='0'; s.style.transform='scale(1.2)';
+                    setTimeout(()=>s.remove(), 800); 
+                }
             }, 2500);
         };
         let t; const gat = document.getElementById('portal-trigger');
         gat.addEventListener('touchstart', (e) => { 
-            e.preventDefault(); 
-            gat.style.background="var(--yellow)"; 
+            e.preventDefault(); gat.style.background="var(--amarelo)"; 
             t=setTimeout(()=>location.href='dashboard.html',3000); 
         });
         gat.addEventListener('touchend', () => { gat.style.background="#1a1a1a"; clearTimeout(t); });
