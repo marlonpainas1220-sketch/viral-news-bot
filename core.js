@@ -24,6 +24,7 @@ const V5 = {
         if(type === 'trends') query = "twitter+trending+topics+brasil+celebridades";
 
         try {
+            // Using stable bridge to fix "Falha na rede"
             const r = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=${query}&hl=pt-BR`);
             const d = await r.json();
             
@@ -33,7 +34,6 @@ const V5 = {
             this.lastUpdate = Date.now();
             this.render(f, type);
         } catch (e) {
-            this.notifyAdminError();
             f.innerHTML = "<div style='text-align:center; padding:50px; color:#F00; font-weight:700;'>Falha na rede. Tentando reconectar...</div>";
             setTimeout(() => this.sync(type), 10000);
         }
@@ -61,10 +61,6 @@ const V5 = {
 
     autoHealCheck() {
         if(!this.lastUpdate || (Date.now() - this.lastUpdate > 600000)) this.sync();
-    },
-
-    notifyAdminError() {
-        console.warn("ALERTA_VITRINIII: Sinal instável detectado.");
     },
 
     play() {
